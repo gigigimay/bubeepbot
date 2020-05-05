@@ -1,17 +1,8 @@
-const Discord = require('discord.js')
+const dotenv = require('dotenv')
 
-const client = new Discord.Client()
+// eslint-disable-next-line no-global-assign
+require = require('esm')(module /* , options */)
 
-// trigger after logging in
-client.once('ready', () => {
-  console.log('Ready!')
-})
+dotenv.config()
 
-
-client.on('message', message => {
-  if (message.author.bot) return
-  message.channel.send(message.content)
-  console.log(message.content)
-})
-
-client.login(process.env.BOT_TOKEN)
+module.exports = require('./src/index')
