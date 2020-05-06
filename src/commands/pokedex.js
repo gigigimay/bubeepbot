@@ -1,9 +1,9 @@
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
-import { withStar, exampleCommand } from '../utilities/string'
+import { exampleCommand, beep } from '../utilities/string'
 
 const error = [
-  `You need to give bubeep a number. ${withStar('beep')}`,
+  beep('You need to give bubeep a number.'),
   exampleCommand('pokedex 385 ditto'),
 ]
 
@@ -12,7 +12,7 @@ const execute = (message, param = '') => {
   const params = param.split(' ')
   params.forEach(async p => {
     const data = await getPokemon(p)
-    if (!data) return message.channel.send(`Can't find data of \`${p}\` ${withStar('beep')}`)
+    if (!data) return message.channel.send(beep(`Can't find data of \`${p}\``))
     const info = pokemonInfo(data, { author: { name: `result of ${p}: ` } })
     message.channel.send(info)
   })

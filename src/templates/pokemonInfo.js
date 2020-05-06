@@ -4,7 +4,7 @@ import { BUBEEP_AVATAR } from '../constants'
 const colorCode = {
   yellow: '#edec7b',
   black: '#171717',
-  blue: '#66d8f2',
+  blue: '#67e2f5',
   brown: '#99744d',
   gray: '#adadad',
   green: '#8de65e',

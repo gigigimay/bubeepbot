@@ -1,12 +1,12 @@
-import { withStar, exampleCommand } from '../utilities/string'
+import { exampleCommand, beep } from '../utilities/string'
 
 const error = [
-  `You need to tell bubeep what to **echo**. ${withStar('beep')}`,
+  beep('You need to tell bubeep what to *echo*.'),
   exampleCommand('echo hello'),
 ]
 
 const execute = (message, param = '') => (param
-  ? message.channel.send([param, param, param, withStar('beep')].join(' '))
+  ? message.channel.send([param, param, param, beep()].join(' '))
   : message.channel.send(error))
 
 export default {
