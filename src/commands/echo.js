@@ -12,6 +12,6 @@ const execute = (message, param = '') => (param
 export default {
   name: 'echo',
   desc: 'I say whatever you say x3',
-  param: true,
+  param: 2, // 0: no param, 1: optional, 2: required
   execute,
 }
