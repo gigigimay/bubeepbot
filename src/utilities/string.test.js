@@ -1,14 +1,28 @@
-import { withStar, parseCommand } from './string'
+import { withStar, parseCommand, clean } from './string'
 
 describe('withStar', () => {
   it('should return string wrapped in star', () => {
-    expect(withStar('beep')).toEqual('\\*beep\\*')
+    expect(withStar('beep')).toBe('\\*beep\\*')
   })
   it('should return undefined if string is empty', () => {
-    expect(withStar()).toEqual(undefined)
+    expect(withStar()).toBe(undefined)
   })
 })
 
+describe('clean', () => {
+  it('should trim and remove duplicate whitespaces', () => {
+    expect(clean('abc ')).toBe('abc')
+    expect(clean(' abc')).toBe('abc')
+    expect(clean('a bc')).toBe('a bc')
+    expect(clean('a b   c')).toBe('a b c')
+  })
+  it('should return empty string', () => {
+    expect(clean()).toBe('')
+    expect(clean('')).toBe('')
+  })
+})
+
+// TODO: mock prefix
 describe('parseCommand', () => {
   it('should return command name and param when input have both', () => {
     expect(parseCommand('!echo eiei')).toEqual({ name: 'echo', param: 'eiei' })

@@ -1,11 +1,30 @@
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
+import fs from 'fs'
+import Discord from 'discord.js'
 import { withStar } from './utilities/string'
-import commands from './commands'
+
+const commands = new Discord.Collection()
+
+const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'))
+
+commandFiles.forEach(file => {
+  const command = require(`./commands/${file}`).default
+  commands.set(command.name, command)
+})
 
 export default ({ name, param }, message) => {
-  const handler = commands[name]
-  if (handler) {
-    handler({ name, param }, message)
-  } else {
-    message.channel.send(`Unknown bubeep command. ${withStar('beep')}`)
+  if (!commands.has(name)) {
+    return message.channel.send(`${withStar('BUBEEP')} Did you cast a wrong spell? :face_with_raised_eyebrow:`)
+  }
+  try {
+    commands.get(name).execute(message, param)
+  } catch (e) {
+    message.channel.send([
+      `${withStar('BUBEEP')} Mr.Stark, I don't feel so good. :nauseated_face:`,
+      '```',
+      e.message,
+      '```',
+    ])
   }
 }
