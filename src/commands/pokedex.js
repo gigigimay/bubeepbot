@@ -21,6 +21,8 @@ const execute = (message, param = '') => {
 export default {
   name: 'pokedex',
   desc: 'Show info of pokemons by pokedex ID or English name.',
+  aliases: ['poke', 'pokemon'],
+  cooldown: 5,
   param: 2, // 0: no param, 1: optional, 2: required
   execute,
 }

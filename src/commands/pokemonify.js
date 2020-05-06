@@ -43,6 +43,7 @@ const execute = async (message, param) => {
 export default {
   name: 'pokemonify',
   desc: 'Turn a target into a pokemon!',
+  cooldown: 5,
   param: 1, // 0: no param, 1: optional, 2: required
   execute,
 }

@@ -9,3 +9,12 @@ export const getCommandTarget = (message, param = '') => {
     tagged,
   }
 }
+
+export const sendError = (e, message, text = '') => {
+  message.channel.send([
+    text,
+    '```',
+    e.message,
+    '```',
+  ])
+}
