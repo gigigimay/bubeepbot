@@ -31,29 +31,26 @@ const pokemonInfo = (data, override) => {
     fp.join(', '),
   )(types)
   const defaultCard = {
-    embed: {
-      color: cardColor,
-      title: `#${id} ${fp.capitalize(name)}`,
-      url: `https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)`,
-      thumbnail: { url: thumbnail },
-      fields: [
-        {
-          name: 'Type',
-          value: mappedTypes,
-          inline: true,
-        },
-      ],
-      timestamp: new Date(),
-      footer: {
-        text: '*bubeep*',
-        icon_url: BUBEEP_AVATAR,
+    color: cardColor,
+    title: `#${id} ${fp.capitalize(name)}`,
+    url: `https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)`,
+    thumbnail: { url: thumbnail },
+    fields: [
+      {
+        name: 'Type',
+        value: mappedTypes,
+        inline: true,
       },
+    ],
+    timestamp: new Date(),
+    footer: {
+      text: '*bubeep*',
+      icon_url: BUBEEP_AVATAR,
     },
   }
-  return fp.merge(
-    { embed: override },
-    defaultCard,
-  )
+  return {
+    embed: fp.merge(defaultCard, override),
+  }
 }
 
 export default pokemonInfo
