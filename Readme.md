@@ -4,4 +4,6 @@
 
 ## Commands
 - echo
-- yingchoob
+- pokedex
+- pokemonify
+- paoyingchoob (in the future!)
