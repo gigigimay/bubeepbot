@@ -1,9 +1,8 @@
-import { prefix } from '../../config.json'
-import { withStar } from '../utilities/string'
+import { withStar, exampleCommand } from '../utilities/string'
 
 const error = [
-  `You need to tell bubeep what to *echo*. ${withStar('beep')}`,
-  `:speech_balloon: \`${prefix}echo hello\``,
+  `You need to tell bubeep what to **echo**. ${withStar('beep')}`,
+  exampleCommand('echo hello'),
 ]
 
 const execute = (message, param = '') => (param

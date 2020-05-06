@@ -2,6 +2,8 @@ import { prefix } from '../../config.json'
 
 export const withStar = str => str && `\\*${str}\\*`
 
+export const exampleCommand = str => `:speech_balloon: \`${prefix}${str}\``
+
 const matcher = new RegExp(`^${prefix}(\\w+)(?: (.+))?`)
 
 export const clean = (str = '') => str.trim().replace(/\s\s+/g, ' ')

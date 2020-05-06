@@ -6,7 +6,7 @@ import { withStar } from './utilities/string'
 
 const commands = new Discord.Collection()
 
-const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js'))
+const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.match(/^\w+(?!test)\.js$/))
 
 commandFiles.forEach(file => {
   const command = require(`./commands/${file}`).default
@@ -20,6 +20,8 @@ export default ({ name, param }, message) => {
   try {
     commands.get(name).execute(message, param)
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e)
     message.channel.send([
       `${withStar('BUBEEP')} Mr.Stark, I don't feel so good. :nauseated_face:`,
       '```',
