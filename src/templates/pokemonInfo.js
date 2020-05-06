@@ -1,5 +1,5 @@
-import Discord from 'discord.js'
 import fp from 'lodash/fp'
+import { BUBEEP_AVATAR } from '../constants'
 
 const colorCode = {
   yellow: '#edec7b',
@@ -14,11 +14,10 @@ const colorCode = {
   white: '#f5f5f5',
 }
 
-const pokemonInfo = (data, params) => {
+const pokemonInfo = (data, override) => {
   const {
     name, sprites, types = [], id, color,
   } = data
-  const { title } = params
   const thumbnail = fp.get('front_default', sprites)
   const cardColor = colorCode[fp.get('name', color)]
   const mappedTypes = fp.flow(
@@ -31,15 +30,30 @@ const pokemonInfo = (data, params) => {
     ),
     fp.join(', '),
   )(types)
-  return new Discord.MessageEmbed()
-    .setColor(cardColor)
-    .setTitle(`#${id} ${fp.capitalize(name)}`)
-    .setAuthor(title)
-    .setURL(`https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)`)
-    .setThumbnail(thumbnail)
-    .addField('Type', mappedTypes)
-    .setTimestamp()
-    .setFooter('*bubeep*')
+  const defaultCard = {
+    embed: {
+      color: cardColor,
+      title: `#${id} ${fp.capitalize(name)}`,
+      url: `https://bulbapedia.bulbagarden.net/wiki/${name}_(Pok%C3%A9mon)`,
+      thumbnail: { url: thumbnail },
+      fields: [
+        {
+          name: 'Type',
+          value: mappedTypes,
+          inline: true,
+        },
+      ],
+      timestamp: new Date(),
+      footer: {
+        text: '*bubeep*',
+        icon_url: BUBEEP_AVATAR,
+      },
+    },
+  }
+  return fp.merge(
+    { embed: override },
+    defaultCard,
+  )
 }
 
 export default pokemonInfo

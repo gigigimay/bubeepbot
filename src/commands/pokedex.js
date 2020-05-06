@@ -13,7 +13,8 @@ const execute = (message, param = '') => {
   params.forEach(async p => {
     const data = await getPokemon(p)
     if (!data) return message.channel.send(`Can't find data of \`${p}\` ${withStar('beep')}`)
-    message.channel.send(pokemonInfo(data, { title: `result of ${p}: ` }))
+    const info = pokemonInfo(data, { author: { name: `result of ${p}: ` } })
+    message.channel.send(info)
   })
 }
 

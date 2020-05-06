@@ -1,6 +1,7 @@
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
 import { getCommandTarget } from '../utilities/message'
+import { getAvatarUrl } from '../utilities/user'
 
 const MAX_POKEMONS = 806
 
@@ -30,7 +31,13 @@ const execute = async (message, param) => {
   const { username, discriminator } = target
   const pokemonID = createPokemonID({ username, discriminator, max: MAX_POKEMONS })
   const data = await getPokemon(pokemonID)
-  message.channel.send(pokemonInfo(data, { title: `${username} is:` }))
+  const info = pokemonInfo(data, {
+    author: {
+      name: `${username} is:`,
+      icon_url: getAvatarUrl(target),
+    },
+  })
+  message.channel.send(info)
 }
 
 export default {
