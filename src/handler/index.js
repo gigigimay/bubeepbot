@@ -6,7 +6,7 @@ import handleCooldown from './cooldown'
 import getCommand from './getCommand'
 
 export default ({ name, param }, message) => {
-  const command = getCommand(name)
+  const command = getCommand(name, message)
 
   // handle unknown commands
   if (!command) {
