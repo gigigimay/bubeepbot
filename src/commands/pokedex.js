@@ -4,7 +4,7 @@ import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../utilities/message'
 
 const error = [
-  beep('You need to give bubeep a number.'),
+  beep('You need to give bubeep a number or a name.'),
   exampleCommand('pokedex 385 ditto'),
 ]
 
