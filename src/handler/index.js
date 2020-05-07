@@ -1,9 +1,7 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
 import { withStar } from '../utilities/string'
 import { sendError } from '../utilities/message'
+import { getCommand } from '../utilities/command'
 import handleCooldown from './cooldown'
-import getCommand from './getCommand'
 
 export default ({ name, param }, message) => {
   const command = getCommand(name, message)

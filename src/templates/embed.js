@@ -5,7 +5,11 @@ const embed = (override = {}) => {
   const defaultEmbed = {
     color: '#65c6af',
     title: 'Bubeep',
-    url: INVITE_URL,
+    author: {
+      name: 'bubeep',
+      icon_url: BUBEEP_AVATAR,
+      url: INVITE_URL,
+    },
     thumbnail: { url: BUBEEP_AVATAR },
     timestamp: new Date(),
     footer: {
