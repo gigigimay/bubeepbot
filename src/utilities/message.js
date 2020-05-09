@@ -1,3 +1,4 @@
+// TODO: use client user cache instead of mentions because mentions can be in wrong order
 export const getCommandTarget = (message, param = '') => {
   const { author, mentions } = message
   const tagged = mentions.users.first()
