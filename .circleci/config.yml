@@ -1,4 +1,5 @@
 version: 2.1
+
 jobs:
   test:
     docker:
@@ -7,6 +8,7 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn test
+
 workflows:
     test:
       jobs:
