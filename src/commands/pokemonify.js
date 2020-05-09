@@ -5,7 +5,7 @@ import { getAvatarUrl } from '../utilities/user'
 
 const MAX_POKEMONS = 806
 
-export const createPokemonID = ({ username = '', discriminator, max }) => {
+export const createPokemonID = ({ username = '', discriminator }, max) => {
   const { length } = username
   const sumName = username.split('').reduce((total, curr) => {
     const charNum = curr.charCodeAt()
@@ -28,12 +28,11 @@ const execute = async (message, param) => {
     `:man_mage: Casting *pokemonify*, turning ${target} into a pokemon...`,
   ])
 
-  const { username, discriminator } = target
-  const pokemonID = createPokemonID({ username, discriminator, max: MAX_POKEMONS })
+  const pokemonID = createPokemonID(target, MAX_POKEMONS)
   const data = await getPokemon(pokemonID)
   const info = pokemonInfo(data, {
     author: {
-      name: `${username} is:`,
+      name: `${target.username} is:`,
       icon_url: getAvatarUrl(target),
     },
   })
