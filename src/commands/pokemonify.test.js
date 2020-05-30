@@ -1,7 +1,16 @@
-import { createPokemonID } from './pokemonify'
+import { createPokemonID, nameToNumber } from './pokemonify'
 
 const getRandomInt = max => Math.floor(Math.random() * Math.floor(max))
 
+describe('nameToNumber', () => {
+  it('should return number calculated from string', () => {
+    expect(typeof nameToNumber('a')).toBe('number')
+    expect(typeof nameToNumber('b')).toBe('number')
+  })
+  it('should give same result if name is the same', () => {
+    expect(nameToNumber('a')).toEqual(nameToNumber('a'))
+  })
+})
 
 describe('createPokemonID', () => {
   const max = 806

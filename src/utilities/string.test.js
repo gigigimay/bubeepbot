@@ -1,4 +1,6 @@
-import { withStar, parseCommand, clean } from './string'
+import {
+  withStar, parseCommand, clean, beep, exampleCommand,
+} from './string'
 
 describe('withStar', () => {
   it('should return string wrapped in star', () => {
@@ -22,7 +24,6 @@ describe('clean', () => {
   })
 })
 
-// TODO: mock prefix
 describe('parseCommand', () => {
   it('should return command name and param when input have both', () => {
     expect(parseCommand('!echo eiei')).toEqual({ name: 'echo', param: 'eiei' })
@@ -33,5 +34,18 @@ describe('parseCommand', () => {
   })
   it('should return null when input is not command', () => {
     expect(parseCommand('hello')).toEqual(null)
+  })
+})
+
+describe('beep', () => {
+  it('should match snapshots', () => {
+    expect(beep()).toMatchSnapshot()
+    expect(beep('eiei')).toMatchSnapshot()
+  })
+})
+
+describe('exampleCommand', () => {
+  it('should match snapshots', () => {
+    expect(exampleCommand('eiei')).toMatchSnapshot()
   })
 })

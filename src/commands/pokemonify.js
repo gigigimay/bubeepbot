@@ -5,13 +5,16 @@ import { getAvatarUrl } from '../utilities/user'
 
 const MAX_POKEMONS = 806
 
-export const createPokemonID = ({ username = '', discriminator }, max) => {
-  const { length } = username
-  const sumName = username.split('').reduce((total, curr) => {
+export const nameToNumber = text => {
+  const { length } = text
+  return text.split('').reduce((total, curr) => {
     const charNum = curr.charCodeAt()
     return charNum % 2 ? total - charNum - length : total + charNum + length
   }, 0)
-  let n = Number(discriminator) + sumName
+}
+
+export const createPokemonID = ({ username = '', discriminator }, max) => {
+  let n = Number(discriminator) + nameToNumber(username)
   if (n === 0) return 0
   if (n < 0) n *= -1
   const r = n % max
