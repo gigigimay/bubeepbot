@@ -1,13 +1,17 @@
-import axios from './axios'
+import axios from "./axios";
 
 export const getMajorCards = async () => {
-  const { cards: majorCards } = (await axios.get('https://rws-cards-api.herokuapp.com/api/v1/cards/search?type=major')).data
-  return majorCards
+  const { data } = await axios.get(
+    "https://rws-cards-api.herokuapp.com/api/v1/cards/search?type=major"
+  )
+  return data.cards
 }
 
-export const getOneCardData = async (cardNumber = 0, isReversed = false) => {
-  const url = `https://rws-cards-api.herokuapp.com/api/v1/cards/ar${cardNumber < 10 ? 0 : ''}${cardNumber}`
-  const { card } = (await axios.get(url)).data
-  return { card, isReversed }
+export const getOneCardData = async (cardNumber = 0) => {
+  const url = `https://rws-cards-api.herokuapp.com/api/v1/cards/ar${
+    cardNumber < 10 ? 0 : ""
+  }${cardNumber}`
+  const { data } = await axios.get(url)
+  return data.card
 }
 export default getOneCardData
