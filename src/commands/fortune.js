@@ -1,8 +1,13 @@
-import { withStar } from '../utilities/string'
+import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../utilities/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'
+
+const error = [
+  beep('You may give bubeep a wrong type.'),
+  exampleCommand('tarot normal or n!tarot single'),
+]
 
 const randomCardNumber = () => Math.floor(Math.random() * 22)
 const randomReverse = () => Math.floor(Math.random() >= 0.5)
@@ -25,7 +30,7 @@ const drawManyCard = async amount => {
     card: majorCards[number],
     isReversed: randomReverse(),
   }))
-  return Object.values(cardDataList)
+  return cardDataList
 }
 
 const drawCard = async () => {
@@ -52,7 +57,7 @@ const execute = async (message, param = 'normal') => {
     if (data) {
       data.forEach(item => message.channel.send(fortuneInfo(item)))
     } else {
-      message.channel.send('no card draw.')
+      message.channel.send(error)
     }
   } catch (e) {
     sendError(e, message, `${withStar('BEEPBOOP')} Something Error O_o`)
