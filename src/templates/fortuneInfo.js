@@ -1,21 +1,21 @@
-import embed from "./embed";
+import embed from './embed'
 
-const fortuneInfo = (cardData) => {
-  const { card, isReversed } = cardData;
+const fortuneInfo = cardData => {
+  const { card, isReversed } = cardData
 
   return embed({
     author: null,
     title: `#${card.value_int} - ${card.name} ${
-      isReversed ? "- Reversed" : ""
+      isReversed ? '- Reversed' : ''
     }`,
     fields: [
       {
-        name: "Meaning",
+        name: 'Meaning',
         value: isReversed ? card.meaning_rev : card.meaning_up,
       },
     ],
     thumbnail: null,
-  });
-};
+  })
+}
 
-export default fortuneInfo;
+export default fortuneInfo

@@ -1,13 +1,8 @@
-import { exampleCommand, beep, withStar } from '../utilities/string'
+import { withStar } from '../utilities/string'
 import { sendError } from '../utilities/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'
-
-const error = [
-  beep('You may give bubeep a wrong type.'),
-  exampleCommand('"tarot normal" or "tarot single"'),
-]
 
 const randomCardNumber = () => Math.floor(Math.random() * 22)
 const randomReverse = () => Math.floor(Math.random() >= 0.5)
