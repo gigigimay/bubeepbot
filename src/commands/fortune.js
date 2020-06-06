@@ -3,29 +3,21 @@ import { sendError } from '../utilities/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'
-import { getRandomInt } from '../utilities/number'
+import { getRandomInt, getNotDuplicatedRandomNumbers } from '../utilities/number'
+
+const MAJOR_CARDS_LENGTH = 22
 
 const error = [
   beep('You may give bubeep a wrong type.'),
   exampleCommand('tarot normal or n!tarot single'),
 ]
 
-const randomCardNumber = () => getRandomInt(22)
 const randomReverse = () => getRandomInt(1)
+const randomCardNumber = () => getRandomInt(MAJOR_CARDS_LENGTH)
+const getCardNumbers = getNotDuplicatedRandomNumbers(MAJOR_CARDS_LENGTH)
 
-const getNotDuplicatedNumberList = amount => {
-  const numberList = []
-  do {
-    const cardNumber = randomCardNumber()
-    if (!numberList.includes(cardNumber)) {
-      numberList.push(cardNumber)
-    }
-  } while (numberList.length < amount)
-  return numberList
-}
-
-const drawManyCard = async amount => {
-  const numberList = getNotDuplicatedNumberList(amount)
+const drawManyCards = async amount => {
+  const numberList = getCardNumbers(amount)
   const majorCards = await getMajorCards()
   const cardDataList = numberList.map(number => ({
     card: majorCards[number],
@@ -34,7 +26,7 @@ const drawManyCard = async amount => {
   return cardDataList
 }
 
-const drawCard = async () => {
+const drawOneCard = async () => {
   const card = await getOneCardData(randomCardNumber())
   const isReversed = randomReverse()
   return { card, isReversed }
@@ -46,10 +38,10 @@ const execute = async (message, param = 'normal') => {
     let data
     switch (param) {
     case 'normal':
-      data = await drawManyCard(3)
+      data = await drawManyCards(3)
       break
     case 'single':
-      data = [await drawCard()]
+      data = [await drawOneCard()]
       break
     default:
       data = null
