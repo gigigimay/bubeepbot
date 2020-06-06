@@ -3,14 +3,15 @@ import { sendError } from '../utilities/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'
+import { getRandomInt } from '../utilities/number'
 
 const error = [
   beep('You may give bubeep a wrong type.'),
   exampleCommand('tarot normal or n!tarot single'),
 ]
 
-const randomCardNumber = () => Math.floor(Math.random() * 22)
-const randomReverse = () => Math.floor(Math.random() >= 0.5)
+const randomCardNumber = () => getRandomInt(22)
+const randomReverse = () => getRandomInt(1)
 
 const getNotDuplicatedNumberList = amount => {
   const numberList = []
