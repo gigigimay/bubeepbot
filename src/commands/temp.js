@@ -1,6 +1,9 @@
 import { exampleCommand, beep } from '../utilities/string'
 import { getRandomInt } from '../utilities/number'
 
+// site for get TextToSpeech
+// https://soundoftext.com/#learn
+
 const voiceUrls = {
   yourTemp:
     'https://soundoftext.nyc3.digitaloceanspaces.com/8a2999e0-ab35-11ea-a916-9d0df1ae6773.mp3',
