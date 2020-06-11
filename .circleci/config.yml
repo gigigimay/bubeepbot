@@ -11,11 +11,11 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn test
-  deploy:
+  deploy_heroku:
     docker:
       - image: circleci/node:12.16.3
     steps:
-      - run: print "hello $HEROKU_APP_NAME"
+      - run: echo "hello $HEROKU_APP_NAME"
       - heroku/deploy-via-git
 
 workflows:
@@ -30,7 +30,7 @@ workflows:
           # filters:
           #   branches:
           #     only: master
-      - deploy:
+      - deploy_heroku:
           requires:
             - approval
         # filters:
