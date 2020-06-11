@@ -15,6 +15,7 @@ jobs:
     docker:
       - image: circleci/node:12.16.3
     steps:
+      - run: print "hello $HEROKU_APP_NAME"
       - heroku/deploy-via-git
 
 workflows:
@@ -24,8 +25,8 @@ workflows:
       - test
       - approval:
           type: approval
-          requires:
-            - test
+          # requires:
+          #   - test
           # filters:
           #   branches:
           #     only: master
