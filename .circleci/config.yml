@@ -20,7 +20,7 @@ jobs:
 
 workflows:
   version: 2.1
-  "deployment":
+  "heroku deploy":
     jobs:
       - test
       - approval:
