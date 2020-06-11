@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  heroku: circleci/heroku@0.0.10
+
 jobs:
   test:
     docker:
@@ -10,6 +13,19 @@ jobs:
       - run: yarn test
 
 workflows:
-    test:
-      jobs:
-        - test
+  staging:
+    jobs:
+      - test
+      - approval:
+          type: approval
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
+      - heroku/deploy-via-git:
+          requires:
+            - approval
+          filters:
+            branches:
+              only: master
