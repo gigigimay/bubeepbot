@@ -11,16 +11,9 @@ jobs:
       - checkout
       - run: yarn
       - run: yarn test
-  deploy_heroku:
-    docker:
-      - image: circleci/node:12.16.3
-    steps:
-      - run: echo "hello $HEROKU_APP_NAME"
-      - heroku/deploy-via-git
 
 workflows:
-  version: 2.1
-  "heroku deploy":
+  staging:
     jobs:
       - test
       - approval:
@@ -30,9 +23,9 @@ workflows:
           # filters:
           #   branches:
           #     only: master
-      - deploy_heroku:
+      - heroku/deploy-via-git:
           requires:
             - approval
-        # filters:
-        #   branches:
-        #     only: master
+          # filters:
+          #   branches:
+          #     only: master
