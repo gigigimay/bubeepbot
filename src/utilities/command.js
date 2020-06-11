@@ -3,3 +3,5 @@ export const getCommand = (name, message) => {
   return commands.get(name)
     || commands.find(cmd => cmd.aliases && cmd.aliases.includes(name))
 }
+
+export default getCommand
