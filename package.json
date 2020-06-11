@@ -17,7 +17,9 @@
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
-    "lodash": "^4.17.15"
+    "ffmpeg-static": "^4.2.2",
+    "lodash": "^4.17.15",
+    "node-opus": "^0.3.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.6",
