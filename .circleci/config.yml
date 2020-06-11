@@ -18,14 +18,14 @@ workflows:
       - test
       - approval:
           type: approval
-          # requires:
-          #   - test
-          # filters:
-          #   branches:
-          #     only: master
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
       - heroku/deploy-via-git:
           requires:
             - approval
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
