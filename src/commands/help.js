@@ -34,16 +34,18 @@ const transformCommand = (config = [], command = {}) => fp.pipe(
 const execute = (message, param = '') => {
   if (param) {
     const command = getCommand(param, message)
-    const commandData = transformCommand(commandDataConfig, command)
-    message.channel.send(embed({
-      thumbnail: null,
-      footer: null,
-      timestamp: null,
-      author: { name: 'bubeep command:' },
-      title: command.name,
-      fields: commandData,
-    }))
-    return
+    if (command) {
+      const commandData = transformCommand(commandDataConfig, command)
+      message.channel.send(embed({
+        thumbnail: null,
+        footer: null,
+        timestamp: null,
+        author: { name: 'bubeep command:' },
+        title: command.name,
+        fields: commandData,
+      }))
+      return
+    }
   }
   const commands = message.client.commands.map(c => `\`${c.name}\` - ${c.desc}`)
   message.channel.send(embed({

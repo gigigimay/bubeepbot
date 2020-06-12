@@ -13,8 +13,8 @@ const error = [
 ]
 
 const randomReverse = () => getRandomInt(1)
-const randomCardNumber = () => getRandomInt(MAJOR_CARDS_LENGTH)
-const getCardNumbers = getNotDuplicatedRandomNumbers(MAJOR_CARDS_LENGTH)
+const randomCardNumber = () => getRandomInt(MAJOR_CARDS_LENGTH - 1)
+const getCardNumbers = getNotDuplicatedRandomNumbers(MAJOR_CARDS_LENGTH - 1)
 
 const drawManyCards = async amount => {
   const numberList = getCardNumbers(amount)

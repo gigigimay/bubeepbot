@@ -12,7 +12,7 @@ client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.match(/^\w+(?!test)\.js$/))
 commandFiles.forEach(file => {
   const command = require(`./commands/${file}`).default
-  client.commands.set(command.name, command)
+  if (command) { client.commands.set(command.name, command) }
 })
 
 // trigger once after logging in
