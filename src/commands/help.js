@@ -1,7 +1,7 @@
 import fp from 'lodash/fp'
 import embed from '../templates/embed'
 import { prefix } from '../../config.json'
-import { getCommand } from '../utilities/command'
+import { getCommand } from '../helper/command'
 
 const paramWord = {
   0: 'none',

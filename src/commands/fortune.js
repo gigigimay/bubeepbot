@@ -1,5 +1,5 @@
 import { exampleCommand, beep, withStar } from '../utilities/string'
-import { sendError } from '../utilities/message'
+import { sendError } from '../helper/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'

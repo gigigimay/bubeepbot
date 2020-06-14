@@ -1,7 +1,7 @@
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
-import { getCommandTarget } from '../utilities/message'
-import { getAvatarUrl } from '../utilities/user'
+import { getCommandTarget } from '../helper/message'
+import { getAvatarUrl } from '../helper/user'
 
 const MAX_POKEMONS = 806
 

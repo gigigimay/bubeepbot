@@ -3,7 +3,8 @@
 import fp from 'lodash/fp'
 
 /**
- * @param {(value, index: number, array: any[]) => result} create a callback function that return value of each array element
+ * @param {(value, index: number, array: any[]) => result} create
+ * a callback function that return value of each array element
  */
 export const createArray = (create = fp.identity, initialValue) => (length = 0) => {
   // create empty array of length and fill with initialValue

@@ -1,6 +1,6 @@
 import { withStar } from '../utilities/string'
-import { sendError } from '../utilities/message'
-import { getCommand } from '../utilities/command'
+import { sendError } from '../helper/message'
+import { getCommand } from '../helper/command'
 import handleCooldown from './cooldown'
 
 export default ({ name, param }, message) => {
