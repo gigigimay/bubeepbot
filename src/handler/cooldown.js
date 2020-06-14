@@ -23,7 +23,8 @@ export default (message, command) => {
 
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000
-      message.reply(beep(`command \`${name}\` is on cooldown, :timer: ${timeLeft.toFixed(1)} second(s) to go.`))
+      const error = beep(`command \`${name}\` is on cooldown, :timer: ${timeLeft.toFixed(1)} second(s) to go.`)
+      message.reply(error)
       return
     }
   }

@@ -15,7 +15,7 @@ export default ({ name, param }, message) => {
 
   // execute command
   try {
-    command.execute(message, param)
+    command.execute({ message, param })
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e.message)

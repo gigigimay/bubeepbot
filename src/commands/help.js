@@ -31,7 +31,7 @@ const transformCommand = (config = [], command = {}) => fp.pipe(
   fp.compact,
 )(config)
 
-const execute = (message, param = '') => {
+const execute = ({ message, param = '' }) => {
   if (param) {
     const command = getCommand(param, message)
     if (command) {

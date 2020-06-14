@@ -6,7 +6,7 @@ const errorNoConnection = [
   beep('You need to join voice channel'),
 ]
 
-const execute = async message => {
+const execute = async ({ message }) => {
   if (!message.member.voice.channel) {
     return message.channel.send(errorNoConnection)
   }

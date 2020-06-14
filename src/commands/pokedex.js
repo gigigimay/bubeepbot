@@ -8,7 +8,7 @@ const error = [
   exampleCommand('pokedex 385 ditto'),
 ]
 
-const execute = (message, param = '') => {
+const execute = ({ message, param = '' }) => {
   if (!param) return message.channel.send(error)
   const params = param.split(' ')
   params.forEach(async p => {

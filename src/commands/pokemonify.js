@@ -21,7 +21,7 @@ export const createPokemonID = ({ username = '', discriminator }, max) => {
   return max - r
 }
 
-const execute = async (message, param) => {
+const execute = async ({ message, param }) => {
   const { target, aimed, tagged } = getCommandTarget(message, param)
   const noTagged = aimed
     ? 'You aimed poorly (not literally tagging) so the spell missed and backfired!'

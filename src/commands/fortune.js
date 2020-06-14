@@ -32,7 +32,7 @@ const drawOneCard = async () => {
   return { card, isReversed }
 }
 
-const execute = async (message, param = 'normal') => {
+const execute = async ({ message, param = 'normal' }) => {
   message.channel.send('let me see. hmm...')
   try {
     let data

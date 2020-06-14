@@ -9,7 +9,7 @@ const errors = {
   ],
 }
 
-const execute = async (message, param) => {
+const execute = async ({ message, param }) => {
   if (!param) {
     return message.channel.send(errors.emptyParams)
   }
