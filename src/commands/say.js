@@ -17,7 +17,7 @@ const execute = async (message, param) => {
     return message.channel.send(errors.noConnection)
   }
   const connection = await message.member.voice.channel.join()
-  const voice = getVoiceLine(`${param.replace(/\s/g, '%20')}`)
+  const voice = getVoiceLine(param)
   connection.play(voice)
 }
 
