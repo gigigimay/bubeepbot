@@ -11,7 +11,7 @@ const execute = async message => {
     return message.channel.send(errorNoConnection)
   }
   const connection = await message.member.voice.channel.join()
-  const dispatcher = connection.play(getVoiceLine('บี๊บ อุณหภูมิของท่านคือ'))
+  const dispatcher = connection.play(getVoiceLine('บี๊บ%20อุณหภูมิของท่านคือ'))
   dispatcher.on('finish', () => {
     const temperature = getVoiceLine(getRandomInt(390, 340) / 10)
     connection.play(temperature)
