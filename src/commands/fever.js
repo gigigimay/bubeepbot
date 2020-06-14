@@ -1,6 +1,6 @@
 import { beep } from '../utilities/string'
 import { getRandomInt } from '../utilities/number'
-import { getVoiceLine } from '../services/tts'
+import { getVoiceLine } from '../utilities/tts'
 
 const errorNoConnection = [
   beep('You need to join voice channel'),

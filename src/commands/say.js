@@ -1,5 +1,5 @@
 import { beep, exampleCommand } from '../utilities/string'
-import { getVoiceLine } from '../services/tts'
+import { getVoiceLine } from '../utilities/tts'
 
 const errors = {
   noConnection: beep('You need to join a voice channel'),
