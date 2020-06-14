@@ -11,7 +11,7 @@ const errors = {
 
 const execute = async (message, param) => {
   if (!param) {
-    return message.channel.send(errors.noConnection)
+    return message.channel.send(errors.emptyParams)
   }
   if (!message.member.voice.channel) {
     return message.channel.send(errors.noConnection)
@@ -24,7 +24,7 @@ const execute = async (message, param) => {
 
 export default {
   name: 'sakod',
-  desc: 'I sakod.',
-  param: 0, // 0: no param, 1: optional, 2: required
+  desc: 'I sakod',
+  param: 2, // 0: no param, 1: optional, 2: required
   execute,
 }
