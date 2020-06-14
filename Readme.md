@@ -16,9 +16,3 @@ yarn
 ```
 yarn dev
 ```
-
-## Commands
-- echo
-- pokedex
-- pokemonify
-- paoyingchoob (in the future!)
