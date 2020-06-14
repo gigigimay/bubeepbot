@@ -1,6 +1,8 @@
 import fp from 'lodash/fp'
 
 export const getVoiceChannel = fp.get('member.voice.channel')
+export const getAuthorUsername = fp.get('author.username')
+export const getAuthorNickname = fp.get('member.nickname')
 
 // TODO: use client user cache instead of mentions because mentions can be in wrong order
 export const getCommandTarget = (message, param = '') => {
