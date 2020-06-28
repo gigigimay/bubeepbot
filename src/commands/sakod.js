@@ -1,29 +1,22 @@
 import { beep, exampleCommand } from '../utilities/string'
-import { getVoiceLine } from '../services/tts'
+import { getVoiceLine } from '../helper/tts'
+import { withVoiceChannel } from '../helper/execute'
 
-const errors = {
-  noConnection: beep('You need to join a voice channel'),
-  emptyParams: [
-    beep('Please tell bubeep what to *say*.'),
-    exampleCommand('echo hello'),
-  ],
+const emptyParamError = [
+  beep('Please tell bubeep what to *sakod*.'),
+  exampleCommand('sakod eiei'),
+]
+
+const execute = ({ connection, param }) => {
+  const word = param.split('').join(' ')
+  connection.play(getVoiceLine(word))
 }
 
-const execute = async (message, param) => {
-  if (!param) {
-    return message.channel.send(errors.noConnection)
-  }
-  if (!message.member.voice.channel) {
-    return message.channel.send(errors.noConnection)
-  }
-  const connection = await message.member.voice.channel.join()
-  const voice = getVoiceLine(`${param.split('').join('%20')}`)
-  connection.play(voice)
-}
+const checkBeforeJoin = ({ param }) => !param && emptyParamError
 
 export default {
   name: 'sakod',
   desc: 'I sakod.',
-  param: 0, // 0: no param, 1: optional, 2: required
-  execute,
+  param: 2, // 0: no param, 1: optional, 2: required
+  execute: withVoiceChannel(execute, { checkBeforeJoin }),
 }

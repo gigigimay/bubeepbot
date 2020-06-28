@@ -1,5 +1,5 @@
 import { exampleCommand, beep, withStar } from '../utilities/string'
-import { sendError } from '../utilities/message'
+import { sendError } from '../helper/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'
@@ -32,7 +32,7 @@ const drawOneCard = async () => {
   return { card, isReversed }
 }
 
-const execute = async (message, param = 'normal') => {
+const execute = async ({ message, param = 'normal' }) => {
   message.channel.send('let me see. hmm...')
   try {
     let data

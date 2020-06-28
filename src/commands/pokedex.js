@@ -1,14 +1,14 @@
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
 import { exampleCommand, beep, withStar } from '../utilities/string'
-import { sendError } from '../utilities/message'
+import { sendError } from '../helper/message'
 
 const error = [
   beep('You need to give bubeep a number or a name.'),
   exampleCommand('pokedex 385 ditto'),
 ]
 
-const execute = (message, param = '') => {
+const execute = ({ message, param = '' }) => {
   if (!param) return message.channel.send(error)
   const params = param.split(' ')
   params.forEach(async p => {

@@ -1,7 +1,7 @@
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
-import { getCommandTarget } from '../utilities/message'
-import { getAvatarUrl } from '../utilities/user'
+import { getCommandTarget } from '../helper/message'
+import { getAvatarUrl } from '../helper/user'
 
 const MAX_POKEMONS = 806
 
@@ -21,7 +21,7 @@ export const createPokemonID = ({ username = '', discriminator }, max) => {
   return max - r
 }
 
-const execute = async (message, param) => {
+const execute = async ({ message, param }) => {
   const { target, aimed, tagged } = getCommandTarget(message, param)
   const noTagged = aimed
     ? 'You aimed poorly (not literally tagging) so the spell missed and backfired!'

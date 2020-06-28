@@ -1,6 +1,6 @@
 import { withStar } from '../utilities/string'
-import { sendError } from '../utilities/message'
-import { getCommand } from '../utilities/command'
+import { sendError } from '../helper/message'
+import { getCommand } from '../helper/command'
 import handleCooldown from './cooldown'
 
 export default ({ name, param }, message) => {
@@ -15,7 +15,7 @@ export default ({ name, param }, message) => {
 
   // execute command
   try {
-    command.execute(message, param)
+    command.execute({ message, param })
   } catch (e) {
     // eslint-disable-next-line no-console
     console.error(e.message)

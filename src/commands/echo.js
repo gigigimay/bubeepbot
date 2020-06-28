@@ -5,7 +5,7 @@ const error = [
   exampleCommand('echo hello'),
 ]
 
-const execute = (message, param = '') => (param
+const execute = ({ message, param }) => (param
   ? message.channel.send([param, param, param, beep()].join(' '))
   : message.channel.send(error))
 
