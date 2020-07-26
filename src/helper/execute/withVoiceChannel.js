@@ -1,8 +1,30 @@
 import fp from 'lodash/fp'
-import { beep } from '../../utilities/string'
+import { beep, parseCommand } from '../../utilities/string'
+import { getCommand } from '../command'
 import { getVoiceChannel } from '../message'
+import config from '../../../config.json'
 
 const defaultError = beep('You need to join a voice channel.')
+
+const filter = response => {
+  if (response.author.bot) return
+  const parsed = parseCommand(response.content)
+  if (parsed) {
+    const command = getCommand(parsed.name, response)
+    return command && command.withVoiceChannel
+  }
+}
+
+const tryToDisconnect = async ({ message, connection, time = config.voiceChannelTimeout }) => {
+  try {
+    await message.channel.awaitMessages(
+      filter,
+      { max: 1, time: time * 1000, errors: ['time'] },
+    )
+  } catch (e) {
+    connection.disconnect()
+  }
+}
 
 /**
  * @param {(args: { message, param: string, connection }) => void} callback
@@ -27,7 +49,8 @@ const withVoiceChannel = (callback, options = {}) => async ({ message, param }) 
   const error = await checkBeforeJoin({ message, param })
   if (!(fp.isNil(error) || fp.isEmpty(error))) { return message.channel.send(error) }
   const connection = await voiceChannel.join()
-  callback({ message, param, connection })
+  await callback({ message, param, connection })
+  await tryToDisconnect({ message, connection })
 }
 
 export default withVoiceChannel

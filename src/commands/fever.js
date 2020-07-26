@@ -19,4 +19,5 @@ export default {
   desc: 'measuring your body temperature',
   param: 0, // 0: no param, 1: optional, 2: required
   execute: withVoiceChannel(execute),
+  withVoiceChannel: true,
 }

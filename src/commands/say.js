@@ -18,4 +18,5 @@ export default {
   desc: 'I say.',
   param: 2, // 0: no param, 1: optional, 2: required
   execute: withVoiceChannel(execute, { checkBeforeJoin }),
+  withVoiceChannel: true,
 }

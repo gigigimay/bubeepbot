@@ -1,3 +1,4 @@
 {
-  "prefix": "b!"
+  "prefix": "b!",
+  "voiceChannelTimeout": 300
 }
