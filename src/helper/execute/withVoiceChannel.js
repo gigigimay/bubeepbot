@@ -6,7 +6,7 @@ import { getVoiceChannel } from '../message'
 const defaultError = beep('You need to join a voice channel.')
 
 const filter = response => {
-  if (response.author.bot) return false
+  if (response.author.bot) return
   const parsed = parseCommand(response.content)
   if (parsed) {
     const command = getCommand(parsed.name, response)
