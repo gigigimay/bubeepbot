@@ -2,6 +2,7 @@ import fp from 'lodash/fp'
 import { beep, parseCommand } from '../../utilities/string'
 import { getCommand } from '../command'
 import { getVoiceChannel } from '../message'
+import config from '../../../config.json'
 
 const defaultError = beep('You need to join a voice channel.')
 
@@ -14,11 +15,11 @@ const filter = response => {
   }
 }
 
-const tryToDisconnect = async ({ message, connection, timeout = 30 }) => {
+const tryToDisconnect = async ({ message, connection, time = config.voiceChannelTimeout }) => {
   try {
     await message.channel.awaitMessages(
       filter,
-      { max: 1, time: timeout * 1000, errors: ['time'] },
+      { max: 1, time: time * 1000, errors: ['time'] },
     )
   } catch (e) {
     connection.disconnect()
