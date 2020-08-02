@@ -1,7 +1,6 @@
 import fp from 'lodash/fp'
 import { asyncForEach } from '../utilities/array'
 
-// eslint-disable-next-line import/prefer-default-export
 export const playSound = (connection, sound) => new Promise(resolve => {
   if (fp.isNil(sound) || fp.isEmpty(sound)) resolve()
   if (typeof sound === 'string') {

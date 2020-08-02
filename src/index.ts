@@ -1,5 +1,4 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
+/* eslint-disable @typescript-eslint/no-var-requires */
 import fs from 'fs'
 import Discord from 'discord.js'
 import { parseCommand } from './utilities/string'

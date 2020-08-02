@@ -42,7 +42,7 @@ const tryToDisconnect = async ({ message, connection, time = config.voiceChannel
 const withVoiceChannel = (callback, options = {}) => async ({ message, param }) => {
   const {
     noConnectionError = defaultError,
-    checkBeforeJoin = () => { },
+    checkBeforeJoin = () => undefined,
   } = options
   const voiceChannel = getVoiceChannel(message)
   if (!voiceChannel) { return message.channel.send(noConnectionError) }

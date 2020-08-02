@@ -1,7 +1,4 @@
-const dotenv = require('dotenv')
-
-// eslint-disable-next-line no-global-assign
-require = require('esm')(module /* , options */)
+import dotenv from 'dotenv'
 
 dotenv.config()
 

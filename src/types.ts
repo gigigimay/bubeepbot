@@ -1,11 +1,6 @@
 import Discord, { Collection } from 'discord.js'
 
-export interface CommandExecutionParams {
-  message: Discord.Message,
-  param?: string
-}
-
-export type CommandExecution = (param: CommandExecutionParams) => void
+export type CommandExecution = (param: { message: Discord.Message, param?: string }) => void
 
 export interface Command {
   name: string

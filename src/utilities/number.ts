@@ -1,6 +1,5 @@
 import { createArray } from './array'
 
-// eslint-disable-next-line import/prefer-default-export
 export const getRandomInt = (max = 0, min = 0, inclusive = true) => {
   if (max < min) throw new Error('max must be more than min!')
   const maxInt = Math.round(max)
