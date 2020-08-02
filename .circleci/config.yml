@@ -27,6 +27,3 @@ workflows:
       - heroku/deploy-via-git:
           requires:
             - approval
-          filters:
-            branches:
-              only: master
