@@ -11,8 +11,8 @@
     "dev": "nodemon",
     "test": "jest --config ./jest.config.json",
     "lint": "eslint .",
-    "build": "rimraf ./build && tsc",
-    "start": "yarn build && node build/index.js"
+    "build": "rimraf ./dist && tsc",
+    "start": "yarn build && node dist/index.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
