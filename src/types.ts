@@ -1,6 +1,8 @@
-import { Message } from 'discord.js'
+import { Message, VoiceChannel, VoiceConnection } from 'discord.js'
 
 export type CommandExecution = (param: { message: Message, param?: string }) => void
+
+export type CommandExecutionJoinVoiceChannel = (param: {connection:VoiceConnection, message: Message, param?: string }) => void
 
 export interface Command {
   name: string
@@ -14,4 +16,24 @@ export interface Command {
 export interface ParsedCommand {
   name: string
   param?: string
+}
+
+export interface TarotCard{
+  value_int: number
+  name: string
+  meaning_up: string
+  meaning_rev: string
+}
+
+export interface PokemonType{
+  name: string
+  url: string
+}
+
+export interface Pokemon{
+  name:string
+  sprite:string
+  types: PokemonType[]
+  id:number
+  color:string
 }
