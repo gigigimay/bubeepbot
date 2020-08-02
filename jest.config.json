@@ -1,6 +1,9 @@
 {
-  "testRegex": "((\\.|/*.)(test))\\.js?$",
-  "setupFiles": [
-    "./jest.setup.js"
-  ]
+  "preset": "ts-jest",
+  "testRegex": "((\\.|/*.)(test))\\.(js|ts)?$",
+  "setupFiles": ["./jest.setup.js"],
+  "modulePathIgnorePatterns": ["build"],
+  "transform": {
+    "\\.js$": "babel-jest"
+  }
 }

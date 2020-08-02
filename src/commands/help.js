@@ -1,6 +1,6 @@
 import fp from 'lodash/fp'
 import embed from '../templates/embed'
-import { prefix } from '../../config.json'
+import { prefix } from '../config.json'
 import { getCommand } from '../helper/command'
 
 const paramWord = {

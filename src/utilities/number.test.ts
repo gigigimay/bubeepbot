@@ -1,16 +1,16 @@
 import { getRandomInt, getNotDuplicatedRandomNumbers } from './number'
 
-const expectNum = (result, max = 0, min = 0) => {
+const expectNum = (result: number, max = 0, min = 0) => {
   expect(result).toBeLessThanOrEqual(max)
   expect(result).toBeGreaterThanOrEqual(min)
 }
 
-const repeat = (times, fn) => {
-  Array(times).fill().forEach((_, index) => fn(index))
+const repeat = (times: number, fn: (index: number) => any) => {
+  Array(times).fill(null).forEach((_, index) => fn(index))
 }
 
-const isDuplicated = array => {
-  const countResult = {}
+const isDuplicated = (array: any[]) => {
+  const countResult: { [k: number]: any } = {}
   array.forEach(v => {
     if (!countResult[v]) {
       countResult[v] = 1
