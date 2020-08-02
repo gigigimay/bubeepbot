@@ -1,19 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import fs from 'fs'
 import Discord from 'discord.js'
 import { parseCommand } from './utilities/string'
 import handler from './handler'
-import { MyClient, Command } from './types'
+import { init as initCommands } from './helper/command'
 
-const client: MyClient = new Discord.Client()
-client.commands = new Discord.Collection()
-
-// init commands
-const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.match(/^\w+(?!test)\.(js|ts)$/))
-commandFiles.forEach(file => {
-  const command: Command = require(`./commands/${file}`).default
-  if (command) { client.commands?.set(command.name, command) }
-})
+const client = new Discord.Client()
+initCommands()
 
 // trigger once after logging in
 client.once('ready', () => {
