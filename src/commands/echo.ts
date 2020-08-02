@@ -1,11 +1,12 @@
 import { exampleCommand, beep } from '../utilities/string'
+import { CommandExecution } from '../types'
 
 const error = [
   beep('You need to tell bubeep what to *echo*.'),
   exampleCommand('echo hello'),
 ]
 
-const execute = ({ message, param }) => (param
+const execute: CommandExecution = ({ message, param }) => (param
   ? message.channel.send([param, param, param, beep()].join(' '))
   : message.channel.send(error))
 

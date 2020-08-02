@@ -4,15 +4,16 @@ import fs from 'fs'
 import Discord from 'discord.js'
 import { parseCommand } from './utilities/string'
 import handler from './handler'
+import { MyClient, Command } from './types'
 
-const client = new Discord.Client()
+const client: MyClient = new Discord.Client()
 client.commands = new Discord.Collection()
 
 // init commands
-const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.match(/^\w+(?!test)\.js$/))
+const commandFiles = fs.readdirSync(`${__dirname}/commands`).filter(file => file.match(/^\w+(?!test)\.(js|ts)$/))
 commandFiles.forEach(file => {
-  const command = require(`./commands/${file}`).default
-  if (command) { client.commands.set(command.name, command) }
+  const command: Command = require(`./commands/${file}`).default
+  if (command) { client.commands?.set(command.name, command) }
 })
 
 // trigger once after logging in
