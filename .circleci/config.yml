@@ -4,28 +4,26 @@ orbs:
   heroku: circleci/heroku@0.0.10
 
 jobs:
-  test:
+  test-and-build:
     docker:
       - image: circleci/node:12.16.3
     steps:
       - checkout
       - run: yarn
       - run: yarn test
+      - run: yarn build
 
 workflows:
   staging:
     jobs:
-      - test
+      - test-and-build
       - approval:
           type: approval
           requires:
-            - test
+            - test-and-build
           filters:
             branches:
               only: master
       - heroku/deploy-via-git:
           requires:
             - approval
-          filters:
-            branches:
-              only: master

@@ -2,7 +2,7 @@ import fp from 'lodash/fp'
 import { beep, parseCommand } from '../../utilities/string'
 import { getCommand } from '../command'
 import { getVoiceChannel } from '../message'
-import config from '../../../config.json'
+import config from '../../config.json'
 
 const defaultError = beep('You need to join a voice channel.')
 
@@ -42,7 +42,7 @@ const tryToDisconnect = async ({ message, connection, time = config.voiceChannel
 const withVoiceChannel = (callback, options = {}) => async ({ message, param }) => {
   const {
     noConnectionError = defaultError,
-    checkBeforeJoin = () => { },
+    checkBeforeJoin = () => undefined,
   } = options
   const voiceChannel = getVoiceChannel(message)
   if (!voiceChannel) { return message.channel.send(noConnectionError) }

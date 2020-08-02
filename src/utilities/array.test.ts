@@ -3,7 +3,7 @@ import { createArray } from './array'
 describe('createArray', () => {
   describe('when create array with a value', () => {
     it('should return array of that value', () => {
-      const getArray = createArray(1)
+      const getArray = createArray<number>(1)
       expect(getArray(3)).toEqual([1, 1, 1])
     })
   })
@@ -19,7 +19,7 @@ describe('createArray', () => {
       expect(getArray(3)).toEqual([1, 1, 1])
     })
     it('[fibonacci] should be able to access index and current array in the callback', () => {
-      const fibonacci = createArray((_value, index, array) => {
+      const fibonacci = createArray<number>((_value, index, array) => {
         if (index < 2) return 1
         return array[index - 1] + array[index - 2]
       })

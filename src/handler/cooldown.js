@@ -1,5 +1,3 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
 import Discord from 'discord.js'
 import { beep } from '../utilities/string'
 
