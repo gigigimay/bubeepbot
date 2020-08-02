@@ -1,6 +1,6 @@
-import Discord, { Collection } from 'discord.js'
+import { Message } from 'discord.js'
 
-export type CommandExecution = (param: { message: Discord.Message, param?: string }) => void
+export type CommandExecution = (param: { message: Message, param?: string }) => void
 
 export interface Command {
   name: string
@@ -8,13 +8,10 @@ export interface Command {
   /** 0: no param, 1: optional, 2: required */
   param: 0 | 1 | 2
   execute: CommandExecution
+  aliases?: string[]
 }
 
 export interface ParsedCommand {
   name: string
   param?: string
-}
-
-export interface MyClient extends Discord.Client {
-  commands?: Collection<string, Command | undefined>
 }

@@ -1,7 +1,7 @@
 import fp from 'lodash/fp'
 import embed from '../templates/embed'
 import { prefix } from '../config.json'
-import { getCommand } from '../helper/command'
+import Commands, { getCommand } from '../helper/command'
 
 const paramWord = {
   0: 'none',
@@ -47,7 +47,7 @@ const execute = ({ message, param = '' }) => {
       return
     }
   }
-  const commands = message.client.commands.map(c => `\`${c.name}\` - ${c.desc}`)
+  const commands = Commands.map(c => `\`${c.name}\` - ${c.desc}`)
   message.channel.send(embed({
     thumbnail: null,
     footer: null,
