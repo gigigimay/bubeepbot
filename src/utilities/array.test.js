@@ -32,7 +32,8 @@ describe('createArray', () => {
       expect(getArray(3)).toEqual([1, 1, 1])
     })
     it('[index + sum]', () => {
-      const getArray = createArray((_value, index, array) => index + array.reduce((a, b) => a + b, 0), 0)
+      const fn = (_value, index, array) => index + array.reduce((a, b) => a + b, 0)
+      const getArray = createArray(fn, 0)
       expect(getArray(5)).toEqual([0, 1, 3, 7, 15])
     })
   })

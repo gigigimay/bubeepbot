@@ -16,6 +16,7 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
+  "ignorePatterns": [ "build/*"],
   "rules": {
     "indent": ["error", 2],
     "quotes": ["error", "single"],
