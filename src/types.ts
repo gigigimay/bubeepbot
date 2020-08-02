@@ -12,14 +12,12 @@ export type WithVoiceChannelCallback = {
 
 export type WithVoiceChannelCheckBeforeJoin = (args: CommandExecutionArgs) => StringResolvable
 
-export type WithVoiceChannelOptions = {
-  noConnectionError?: StringResolvable
-  checkBeforeJoin?: WithVoiceChannelCheckBeforeJoin
-}
-
 export type CommandExecutionWithVoiceChannel = (
   callback: (args: WithVoiceChannelCallback) => Promise<void>,
-  options?: WithVoiceChannelOptions
+  options?: {
+    noConnectionError?: StringResolvable
+    checkBeforeJoin?: WithVoiceChannelCheckBeforeJoin
+  }
 ) => CommandExecution
 
 export interface Command {
