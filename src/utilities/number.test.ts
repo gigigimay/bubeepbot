@@ -5,12 +5,12 @@ const expectNum = (result: number, max = 0, min = 0) => {
   expect(result).toBeGreaterThanOrEqual(min)
 }
 
-const repeat = (times: number, fn: (index: number) => any) => {
+const repeat = (times: number, fn: (index: number) => void) => {
   Array(times).fill(null).forEach((_, index) => fn(index))
 }
 
-const isDuplicated = (array: any[]) => {
-  const countResult: { [k: number]: any } = {}
+const isDuplicated = (array: number[]) => {
+  const countResult: { [k: number]: number } = {}
   array.forEach(v => {
     if (!countResult[v]) {
       countResult[v] = 1
