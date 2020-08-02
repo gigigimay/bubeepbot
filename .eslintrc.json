@@ -1,27 +1,38 @@
 {
+  "root":true,
+  "parser": "@typescript-eslint/parser",
   "env": {
-    "browser": true,
+    "browser": false,
     "es6": true,
     "jest": true
   },
+  "plugins": [
+    "jest",
+    "@typescript-eslint"
+  ],
   "extends": [
-    "airbnb-base"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "plugins": ["jest"],
   "parserOptions": {
     "ecmaVersion": 2018,
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
-  "ignorePatterns": ["dist/*"],
+  "ignorePatterns": [
+    "dist/*",
+    "coverage/*"
+  ],
   "rules": {
     "indent": ["error", 2],
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
     "arrow-parens": ["error", "as-needed"],
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "eol-last": "error"
   }
 }
