@@ -14,14 +14,15 @@ export default async ({ name, param }: ParsedCommand, message: Message): Promise
     return
   }
 
-  if (!handleCooldown(message, command)) return
-
   // execute command
   try {
+    await handleCooldown(message, command)
     await command.execute({ message, param })
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e.message)
-    sendError(e, message, `${withStar('BUBEEP')} Mr.Stark, I don't feel so good. :nauseated_face:`)
+    if (e.message !== 'cooldown') {
+      // eslint-disable-next-line no-console
+      console.error(e.message)
+      sendError(e, message, `${withStar('BUBEEP')} Mr.Stark, I don't feel so good. :nauseated_face:`)
+    }
   }
 }

@@ -1,21 +1,24 @@
 import fp from 'lodash/fp'
+import { Message, VoiceConnection, CollectorFilter } from 'discord.js'
 import { beep, parseCommand } from '../../utilities/string'
 import { getCommand } from '../command'
 import { getVoiceChannel } from '../message'
 import config from '../../config.json'
+import { CommandExecutionWithVoiceChannel } from '../../types'
 
 const defaultError = beep('You need to join a voice channel.')
 
-const filter = response => {
-  if (response.author.bot) return
+const filter: CollectorFilter = (response: Message) => {
+  if (response.author.bot) return false
   const parsed = parseCommand(response.content)
-  if (parsed) {
-    const command = getCommand(parsed.name, response)
-    return command && command.withVoiceChannel
-  }
+  if (!parsed) return false
+  const command = getCommand(parsed.name)
+  if (!command) return false
+  return !!command.withVoiceChannel
 }
 
-const tryToDisconnect = async ({ message, connection, time = config.voiceChannelTimeout }) => {
+const tryToDisconnect = async (args: { message: Message, connection: VoiceConnection, time?: number }) => {
+  const { message, connection, time = config.voiceChannelTimeout } = args
   try {
     await message.channel.awaitMessages(
       filter,
@@ -39,7 +42,7 @@ const tryToDisconnect = async ({ message, connection, time = config.voiceChannel
  * - `checkBeforeJoin` - a callback function that execute before join.
  *    if the function returns false, command will end and bot will not join channel.
  */
-const withVoiceChannel = (callback, options = {}) => async ({ message, param }) => {
+const withVoiceChannel: CommandExecutionWithVoiceChannel = (callback, options = {}) => async ({ message, param }) => {
   const {
     noConnectionError = defaultError,
     checkBeforeJoin = () => undefined,
