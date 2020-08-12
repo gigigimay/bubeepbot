@@ -1,3 +1,4 @@
+import { CommandExecution } from './../types'
 import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../helper/message'
 
@@ -12,11 +13,11 @@ const error = [
   exampleCommand('tarot normal or n!tarot single'),
 ]
 
-const randomReverse = () => getRandomInt(1)
+const randomReverse = () => getRandomInt(1) === 0
 const randomCardNumber = () => getRandomInt(MAJOR_CARDS_LENGTH - 1)
 const getCardNumbers = getNotDuplicatedRandomNumbers(MAJOR_CARDS_LENGTH - 1)
 
-const drawManyCards = async amount => {
+const drawManyCards = async (amount:number) => {
   const numberList = getCardNumbers(amount)
   const majorCards = await getMajorCards()
   const cardDataList = numberList.map(number => ({
@@ -32,7 +33,7 @@ const drawOneCard = async () => {
   return { card, isReversed }
 }
 
-const execute = async ({ message, param = 'normal' }) => {
+const execute:CommandExecution = async ({ message, param = 'normal' }) => {
   message.channel.send('let me see. hmm...')
   try {
     let data

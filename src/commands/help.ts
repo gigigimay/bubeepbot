@@ -1,9 +1,10 @@
+import { CommandExecution } from './../types'
 import fp from 'lodash/fp'
 import embed from '../templates/embed'
 import { prefix } from '../config.json'
 import Commands, { getCommand } from '../helper/command'
 
-const paramWord = {
+const paramWord:{[k: number]: string } = {
   0: 'none',
   1: 'optional',
   2: 'required',
@@ -12,17 +13,17 @@ const paramWord = {
 const commandDataConfig = [
   { key: 'desc', name: 'Description' },
   {
-    key: 'cooldown', name: 'Cooldown', inline: true, transform: c => `${c} second${c > 1 ? 's' : ''}`,
+    key: 'cooldown', name: 'Cooldown', inline: true, transform: (c:number) => `${c} second${c > 1 ? 's' : ''}`,
   },
   {
-    key: 'param', name: 'Parameter', inline: true, transform: v => paramWord[v],
+    key: 'param', name: 'Parameter', inline: true, transform: (v:number) => paramWord[v],
   },
   {
     key: 'aliases', name: 'Aliases', inline: true, transform: fp.join(', '),
   },
 ]
 
-const transformCommand = (config = [], command = {}) => fp.pipe(
+const transformCommand = (config:Array<any> = [], command = {}) => fp.pipe(
   fp.map(({ transform, ...f }) => {
     const v = fp.get(f.key)(command)
     const value = transform ? transform(v) : v
@@ -31,9 +32,9 @@ const transformCommand = (config = [], command = {}) => fp.pipe(
   fp.compact,
 )(config)
 
-const execute = ({ message, param = '' }) => {
+const execute:CommandExecution = ({ message, param = '' }) => {
   if (param) {
-    const command = getCommand(param, message)
+    const command = getCommand(param)
     if (command) {
       const commandData = transformCommand(commandDataConfig, command)
       message.channel.send(embed({

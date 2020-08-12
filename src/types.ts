@@ -4,23 +4,21 @@ export type CommandExecutionArgs = { message: Message, param?: string }
 
 export type CommandExecution = (args: CommandExecutionArgs) => void
 
-export type WithVoiceChannelCallback = {
+export type WithVoiceChannelCallback = (args: {
   message: Message
   param?: string
   connection: VoiceConnection
-}
+}) => Promise<void>
 
 export type WithVoiceChannelCheckBeforeJoin = (args: CommandExecutionArgs) => StringResolvable
 
 export type CommandExecutionWithVoiceChannel = (
-  callback: (args: WithVoiceChannelCallback) => Promise<void>,
+  callback: WithVoiceChannelCallback,
   options?: {
     noConnectionError?: StringResolvable
     checkBeforeJoin?: WithVoiceChannelCheckBeforeJoin
   }
 ) => CommandExecution
-
-export type CommandExecutionJoinVoiceChannel = (param: {connection:VoiceConnection, message: Message, param?: string }) => void
 
 export interface Command {
   name: string
