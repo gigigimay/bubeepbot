@@ -2,7 +2,7 @@ import fp from 'lodash/fp'
 import { VoiceConnection } from 'discord.js'
 import { asyncForEach } from '../utilities/array'
 
-export const playSound = (connection: VoiceConnection, sound: string): Promise<void> => new Promise(resolve => {
+export const playSound = (connection: VoiceConnection, sound: string | string[]): Promise<void> => new Promise(resolve => {
   if (fp.isNil(sound) || fp.isEmpty(sound)) resolve()
   if (typeof sound === 'string') {
     const dispatcher = connection.play(sound)
