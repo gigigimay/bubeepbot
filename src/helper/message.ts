@@ -4,7 +4,7 @@ export const getVoiceChannel = (message: Message): VoiceChannel | null | undefin
 export const getAuthorUsername = (message: Message): string => message.author.username
 export const getAuthorNickname = (message: Message): string | null | undefined => message.member?.nickname
 
-export type CommandTarget = {
+export interface CommandTarget {
   target: User | undefined
   aimed: boolean
   tagged: User | undefined
@@ -14,7 +14,7 @@ export type CommandTarget = {
 export const getCommandTarget = (message: Message, param = ''): CommandTarget => {
   const { author, mentions } = message
   const tagged = mentions.users.first()
-  const target = tagged || author
+  const target = tagged ?? author
   const aimed = !!param.match(/@/)
   return {
     target,

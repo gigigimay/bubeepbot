@@ -11,21 +11,21 @@ export const createArray = <T>(
   initialValue?: T,
 ) => (length = 0): T[] => {
   // create empty array of length and fill with initialValue
-    const arr: T[] = Array(length).fill(initialValue)
+  const arr: T[] = Array(length).fill(initialValue)
 
-    // loop through the array and assign value to the array (mutate)
-    arr.forEach((value, index, array) => {
-      if (create instanceof Function) {
-        const result = create(value, index, array)
-        // eslint-disable-next-line no-param-reassign
-        array[index] = result
-      } else {
+  // loop through the array and assign value to the array (mutate)
+  arr.forEach((value, index, array) => {
+    if (create instanceof Function) {
+      const result = create(value, index, array)
       // eslint-disable-next-line no-param-reassign
-        array[index] = create
-      }
-    })
-    return arr
-  }
+      array[index] = result
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      array[index] = create
+    }
+  })
+  return arr
+}
 
 export const asyncForEach = async <T>(
   array: T[],

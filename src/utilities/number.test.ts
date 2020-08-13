@@ -11,14 +11,14 @@ const repeat = (times: number, fn: (index: number) => void) => {
 
 const isDuplicated = (array: number[]) => {
   const countResult: { [k: number]: number } = {}
-  array.forEach(v => {
+  array.forEach((v) => {
     if (!countResult[v]) {
       countResult[v] = 1
     } else {
       countResult[v] += 1
     }
   })
-  return !!Object.values(countResult).find(v => v > 1)
+  return !!Object.values(countResult).find((v) => v > 1)
 }
 
 describe('getRandomInt', () => {

@@ -2,17 +2,18 @@ import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
 import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../helper/message'
-import { CommandExecution } from '../types'
+import { CommandExecution, Command } from '../types'
+import { asyncForEach } from '../utilities/array'
 
 const error = [
   beep('You need to give bubeep a number or a name.'),
   exampleCommand('pokedex 385 ditto'),
 ]
 
-const execute:CommandExecution = ({ message, param = '' }) => {
+const execute: CommandExecution = ({ message, param = '' }) => {
   if (!param) return message.channel.send(error)
   const params = param.split(' ')
-  params.forEach(async p => {
+  asyncForEach(params, async (p) => {
     try {
       const data = await getPokemon(+p)
       const info = pokemonInfo(data, { author: { name: `result of ${p}: ` } })
@@ -23,11 +24,13 @@ const execute:CommandExecution = ({ message, param = '' }) => {
   })
 }
 
-export default {
+const command: Command = {
   name: 'pokedex',
   desc: 'Show info of pokemons by pokedex ID or English name.',
   aliases: ['poke', 'pokemon'],
   cooldown: 5,
-  param: 2, // 0: no param, 1: optional, 2: required
+  param: 2,
   execute,
 }
+
+export default command

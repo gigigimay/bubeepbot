@@ -1,10 +1,13 @@
-import { CommandExecution } from './../types'
+import { CommandExecution, TarotCard, Command } from './../types'
 import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../helper/message'
 
 import { getOneCardData, getMajorCards } from '../services/tarot'
 import fortuneInfo from '../templates/fortuneInfo'
-import { getRandomInt, getNotDuplicatedRandomNumbers } from '../utilities/number'
+import {
+  getRandomInt,
+  getNotDuplicatedRandomNumbers,
+} from '../utilities/number'
 
 const MAJOR_CARDS_LENGTH = 22
 
@@ -13,55 +16,63 @@ const error = [
   exampleCommand('tarot normal or n!tarot single'),
 ]
 
-const randomReverse = () => getRandomInt(1) === 0
-const randomCardNumber = () => getRandomInt(MAJOR_CARDS_LENGTH - 1)
+const randomReverse = (): boolean => getRandomInt(1) === 0
+const randomCardNumber = (): number => getRandomInt(MAJOR_CARDS_LENGTH - 1)
 const getCardNumbers = getNotDuplicatedRandomNumbers(MAJOR_CARDS_LENGTH - 1)
 
-const drawManyCards = async (amount:number) => {
+interface Card {
+  card: TarotCard
+  isReversed: boolean
+}
+
+const drawManyCards = async (amount: number): Promise<Card[]> => {
   const numberList = getCardNumbers(amount)
   const majorCards = await getMajorCards()
-  const cardDataList = numberList.map(number => ({
+  const cardDataList = numberList.map((number) => ({
     card: majorCards[number],
     isReversed: randomReverse(),
   }))
   return cardDataList
 }
 
-const drawOneCard = async () => {
+const drawOneCard = async (): Promise<Card> => {
   const card = await getOneCardData(randomCardNumber())
   const isReversed = randomReverse()
   return { card, isReversed }
 }
 
-const execute:CommandExecution = async ({ message, param = 'normal' }) => {
-  message.channel.send('let me see. hmm...')
+const execute: CommandExecution = async ({ message, param = 'normal' }) => {
+  await message.channel.send('let me see. hmm...')
   try {
     let data
     switch (param) {
-    case 'normal':
-      data = await drawManyCards(3)
-      break
-    case 'single':
-      data = [await drawOneCard()]
-      break
-    default:
-      data = null
+      case 'normal':
+        data = await drawManyCards(3)
+        break
+      case 'single':
+        data = [await drawOneCard()]
+        break
+      default:
+        data = null
     }
 
     if (data) {
-      data.forEach(item => message.channel.send(fortuneInfo(item)))
+      data.forEach((item) => {
+        message.channel.send(fortuneInfo(item))
+      })
     } else {
-      message.channel.send(error)
+      await message.channel.send(error)
     }
   } catch (e) {
-    sendError(e, message, `${withStar('BEEPBOOP')} Something Error O_o`)
+    await sendError(e, message, `${withStar('BEEPBOOP')} Something Error O_o`)
   }
 }
-
-export default {
+const command: Command = {
   name: 'fortune',
   desc: 'Let me read your mind then represent it as a card. ',
   cooldown: 5,
-  param: 1, // 0: no param, 1: optional, 2: required
+  param: 1,
   execute,
 }
+
+export default command

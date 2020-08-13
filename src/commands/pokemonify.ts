@@ -1,5 +1,5 @@
 import { User } from 'discord.js'
-import { CommandExecution } from './../types'
+import { CommandExecution, Command } from './../types'
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
 import { getCommandTarget } from '../helper/message'
@@ -7,7 +7,7 @@ import { getAvatarUrl } from '../helper/user'
 
 const MAX_POKEMONS = 806
 
-export const nameToNumber = (text:string):number => {
+export const nameToNumber = (text: string): number => {
   const { length } = text
   return text.split('').reduce((total, curr) => {
     const charNum = curr.charCodeAt(0)
@@ -15,7 +15,13 @@ export const nameToNumber = (text:string):number => {
   }, 0)
 }
 
-export const createPokemonID = ({ username = '', discriminator }:User, max:number):number => {
+export const createPokemonID = (
+  {
+    username,
+    discriminator,
+  }: User | { username: string, discriminator: number },
+  max: number,
+): number => {
   let n = Number(discriminator) + nameToNumber(username)
   if (n === 0) return 0
   if (n < 0) n *= -1
@@ -23,9 +29,9 @@ export const createPokemonID = ({ username = '', discriminator }:User, max:numbe
   return max - r
 }
 
-const execute:CommandExecution = async ({ message, param }) => {
+const execute: CommandExecution = async ({ message, param }) => {
   const { target, aimed, tagged } = getCommandTarget(message, param)
-  if (target){
+  if (target) {
     const noTagged = aimed
       ? 'You aimed poorly (not literally tagging) so the spell missed and backfired!'
       : 'You didn\'t aim anyone so the spell will be casted on yourself.'
@@ -46,10 +52,12 @@ const execute:CommandExecution = async ({ message, param }) => {
   }
 }
 
-export default {
+const command: Command = {
   name: 'pokemonify',
   desc: 'Turn a target into a pokemon!',
   cooldown: 5,
-  param: 1, // 0: no param, 1: optional, 2: required
+  param: 1,
   execute,
 }
+
+export default command

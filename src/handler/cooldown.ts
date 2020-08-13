@@ -15,7 +15,7 @@ export default async (message: Discord.Message, command: Command): Promise<void>
 
   const now = Date.now()
   const timestamps = cooldowns.get(name)
-  const cooldownAmount = (command.cooldown || 3) * 1000
+  const cooldownAmount = (command.cooldown ?? 3) * 1000
 
   const commandTimestamp = timestamps?.get(id)
 

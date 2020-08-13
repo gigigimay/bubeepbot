@@ -2,8 +2,8 @@ import { MessageEmbed } from 'discord.js'
 import fp from 'lodash/fp'
 import { BUBEEP_AVATAR, INVITE_URL } from '../constants'
 
-const embed = (override = {}):{embed: MessageEmbed}  => {
-  const defaultEmbed =fp.merge(new MessageEmbed, {
+const embed = (override = {}): {embed: MessageEmbed} => {
+  const defaultEmbed = fp.merge(new MessageEmbed(), {
     color: '#65c6af',
     title: 'Bubeep',
     author: {

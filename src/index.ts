@@ -12,7 +12,7 @@ client.once('ready', () => {
 })
 
 // subscribe to message event
-client.on('message', message => {
+client.on('message', (message) => {
   if (message.author.bot) return
   const parsed = parseCommand(message.content)
   if (parsed) {

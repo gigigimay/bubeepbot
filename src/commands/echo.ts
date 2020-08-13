@@ -13,7 +13,7 @@ const execute: CommandExecution = ({ message, param }) => (param
 const command: Command = {
   name: 'echo',
   desc: 'I say whatever you say x3',
-  param: 2, // 0: no param, 1: optional, 2: required
+  param: 2,
   execute,
 }
 

@@ -6,8 +6,8 @@ describe('withStar', () => {
   it('should return string wrapped in star', () => {
     expect(withStar('beep')).toBe('\\*beep\\*')
   })
-  it('should return undefined if string is empty', () => {
-    expect(withStar()).toBe(undefined)
+  it('should return "" if string is empty', () => {
+    expect(withStar()).toBe('')
   })
 })
 
@@ -32,8 +32,8 @@ describe('parseCommand', () => {
   it('should return only command name when input does not have param', () => {
     expect(parseCommand('!echo')).toEqual({ name: 'echo', param: undefined })
   })
-  it('should return null when input is not command', () => {
-    expect(parseCommand('hello')).toEqual(null)
+  it('should return undefined when input is not command', () => {
+    expect(parseCommand('hello')).toEqual(undefined)
   })
 })
 

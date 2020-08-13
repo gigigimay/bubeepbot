@@ -17,40 +17,39 @@ const filter: CollectorFilter = (response: Message) => {
   return !!command.withVoiceChannel
 }
 
-const tryToDisconnect = async (args: { message: Message, connection: VoiceConnection, time?: number }) => {
+const tryToDisconnect = async (args: {
+  message: Message
+  connection: VoiceConnection
+  time?: number
+}): Promise<void> => {
   const { message, connection, time = config.voiceChannelTimeout } = args
   try {
-    await message.channel.awaitMessages(
-      filter,
-      { max: 1, time: time * 1000, errors: ['time'] },
-    )
+    await message.channel.awaitMessages(filter, {
+      max: 1,
+      time: time * 1000,
+      errors: ['time'],
+    })
   } catch (e) {
     connection.disconnect()
   }
 }
 
-/**
- * @param {(args: { message, param: string, connection }) => void} callback
- * a function that runs after bot has joined user's voice channel
- * @param {{
- *  noConnectionError: string,
- *  checkBeforeJoin: (args: { message, param: string }) => boolean
- * }} options optional options
- *
- * ### available options
- * - `noConnectionError` - error message to reply when user is not in a voice channel.
- * - `checkBeforeJoin` - a callback function that execute before join.
- *    if the function returns false, command will end and bot will not join channel.
- */
-const withVoiceChannel: CommandExecutionWithVoiceChannel = (callback, options = {}) => async ({ message, param }) => {
+const withVoiceChannel: CommandExecutionWithVoiceChannel = (
+  callback,
+  options = {},
+) => async ({ message, param }) => {
   const {
     noConnectionError = defaultError,
     checkBeforeJoin = () => undefined,
   } = options
   const voiceChannel = getVoiceChannel(message)
-  if (!voiceChannel) { return message.channel.send(noConnectionError) }
+  if (!voiceChannel) {
+    return message.channel.send(noConnectionError)
+  }
   const error = await checkBeforeJoin({ message, param })
-  if (!(fp.isNil(error) || fp.isEmpty(error))) { return message.channel.send(error) }
+  if (!(fp.isNil(error) || fp.isEmpty(error))) {
+    return message.channel.send(error)
+  }
   const connection = await voiceChannel.join()
   await callback({ message, param, connection })
   await tryToDisconnect({ message, connection })

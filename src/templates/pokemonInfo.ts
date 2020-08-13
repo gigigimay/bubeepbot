@@ -1,9 +1,9 @@
+import { MessageEmbed } from 'discord.js'
 import { Pokemon } from './../types'
 import fp from 'lodash/fp'
 import { BUBEEP_AVATAR } from '../constants'
-import { MessageEmbed } from 'discord.js'
 
-const colorCode:{[key:string]:string} = {
+const colorCode: { [key: string]: string } = {
   yellow: '#edec7b',
   black: '#171717',
   blue: '#67e2f5',
@@ -16,7 +16,7 @@ const colorCode:{[key:string]:string} = {
   white: '#f5f5f5',
 }
 
-const pokemonInfo = (data:Pokemon, override:any):{embed: MessageEmbed} => {
+const pokemonInfo = (data: Pokemon, override: any): { embed: MessageEmbed } => {
   const {
     name, sprite, types = [], id, color,
   } = data
