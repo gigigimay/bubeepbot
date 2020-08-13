@@ -1,5 +1,5 @@
 {
-  "root":true,
+  "root": true,
   "parser": "@typescript-eslint/parser",
   "env": {
     "node": true,
@@ -8,11 +8,16 @@
   },
   "plugins": [
     "jest",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "import"
   ],
   "extends": [
     "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript",
+    "standard-with-typescript"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -28,11 +33,59 @@
     "coverage/*"
   ],
   "rules": {
-    "indent": ["error", 2],
-    "quotes": ["error", "single"],
-    "semi": ["error", "never"],
-    "arrow-parens": ["error", "as-needed"],
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/promise-function-async": "off",
+    "@typescript-eslint/restrict-template-expressions": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "array-element-newline": [
+      "error",
+      "consistent"
+    ],
+    "array-bracket-newline": [
+      "error",
+      "consistent"
+    ],
+    "arrow-parens": [
+      "error",
+      "always"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "consistent-return": "off",
-    "eol-last": "error"
-  }
+    "eol-last": "error",
+    "import/first": "error",
+    "indent": "off",
+    "@typescript-eslint/indent": [
+      "error",
+      2
+    ],
+    "keyword-spacing": [
+      "error",
+      {
+        "after": true
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
+    "standard/no-callback-literal": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.test.ts",
+        "*.test.js"
+      ],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off"
+      }
+    }
+  ]
 }
