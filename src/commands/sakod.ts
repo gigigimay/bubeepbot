@@ -15,7 +15,7 @@ const execute: WithVoiceChannelCallback = async ({ connection, param }) => {
   }
 }
 
-const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => !param && emptyParamError
+const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => !param ? emptyParamError : undefined
 
 const command: Command = {
   name: 'sakod',

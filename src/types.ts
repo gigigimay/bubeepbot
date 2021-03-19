@@ -20,7 +20,7 @@ export type WithVoiceChannelCallback = (args: {
 
 export type WithVoiceChannelCheckBeforeJoin = (
   args: CommandExecutionArgs
-) => StringResolvable
+) => Promise<string | string[] | undefined> | string | string[] | undefined
 
 export type CommandExecutionWithVoiceChannel = (
   callback: WithVoiceChannelCallback,
