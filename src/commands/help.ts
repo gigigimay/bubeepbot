@@ -6,12 +6,6 @@ import { prefix } from '../config.json'
 import Commands, { getCommand } from '../helper/command'
 import embed from '../templates/embed'
 
-const paramWord: { [k: number]: string } = {
-  0: 'none',
-  1: 'optional',
-  2: 'required',
-}
-
 interface CommandDataConfig {
   key: string
   name: string
@@ -25,7 +19,7 @@ const commandDataConfig: CommandDataConfig[] = [
     key: 'cooldown', name: 'Cooldown', inline: true, transform: (c: number) => `${c} second${c > 1 ? 's' : ''}`,
   },
   {
-    key: 'param', name: 'Parameter', inline: true, transform: (v: number) => paramWord[v],
+    key: 'param', name: 'Parameter', inline: true,
   },
   {
     key: 'aliases', name: 'Aliases', inline: true, transform: fp.join(', '),
