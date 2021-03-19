@@ -3,7 +3,7 @@ export const getVoiceLine = (text: string | number): string => {
   return `https://translate.google.com.vn/translate_tts?ie=UTF-8&q=${formatted}&tl=th&client=tw-ob`
 }
 
-const getGender = (value: string): string => {
+export const getGender = (value: string): string => {
   const lower = value.toLowerCase()
   if (['male', 'm'].includes(lower)) return 'male'
   if (['female', 'f'].includes(lower)) return 'female'
