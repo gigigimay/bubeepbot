@@ -1,5 +1,5 @@
 import { exampleCommand, beep } from '../utilities/string'
-import { CommandExecution, Command } from '../types'
+import { CommandExecution, Command, CommandParamType } from '../types'
 
 const error = [
   beep('You need to tell bubeep what to *echo*.'),
@@ -13,7 +13,7 @@ const execute: CommandExecution = ({ message, param }) => (param
 const command: Command = {
   name: 'echo',
   desc: 'I say whatever you say x3',
-  param: 2,
+  param: CommandParamType.Required,
   execute,
 }
 

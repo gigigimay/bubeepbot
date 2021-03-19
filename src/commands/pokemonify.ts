@@ -1,5 +1,5 @@
 import { User } from 'discord.js'
-import { CommandExecution, Command } from './../types'
+import { CommandExecution, Command, CommandParamType } from './../types'
 import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
 import { getCommandTarget } from '../helper/message'
@@ -56,7 +56,7 @@ const command: Command = {
   name: 'pokemonify',
   desc: 'Turn a target into a pokemon!',
   cooldown: 5,
-  param: 1,
+  param: CommandParamType.Optional,
   execute,
 }
 

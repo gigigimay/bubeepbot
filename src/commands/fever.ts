@@ -1,4 +1,4 @@
-import { WithVoiceChannelCallback, Command } from './../types'
+import { WithVoiceChannelCallback, Command, CommandParamType } from './../types'
 import { getRandomInt } from '../utilities/number'
 import { getVoiceLine } from '../helper/tts'
 import { withVoiceChannel } from '../helper/execute'
@@ -20,7 +20,7 @@ const execute: WithVoiceChannelCallback = async ({ connection, message }) => {
 const command: Command = {
   name: 'fever',
   desc: 'measuring your body temperature',
-  param: 0,
+  param: CommandParamType.None,
   execute: withVoiceChannel(execute),
   withVoiceChannel: true,
 }

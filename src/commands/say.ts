@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { checkLanguageValid, getGender, getVoiceLineNational } from './../helper/tts'
-import { Command, IIndexable, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
+import { Command, CommandParamType, IIndexable, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
 import { beep, exampleCommand } from '../utilities/string'
 
 import { withVoiceChannel } from '../helper/execute'
@@ -62,7 +62,7 @@ const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message
 const command: Command = {
   name: 'say',
   desc: 'I say.',
-  param: 2,
+  param: CommandParamType.Required,
   execute: withVoiceChannel(execute, { checkBeforeJoin }),
   withVoiceChannel: true,
 }

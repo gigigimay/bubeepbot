@@ -1,4 +1,4 @@
-import { WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin, Command } from './../types'
+import { WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin, Command, CommandParamType } from './../types'
 import { beep, exampleCommand } from '../utilities/string'
 import { getVoiceLine } from '../helper/tts'
 import { withVoiceChannel } from '../helper/execute'
@@ -20,7 +20,7 @@ const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => !param ?
 const command: Command = {
   name: 'sakod',
   desc: 'I sakod.',
-  param: 2,
+  param: CommandParamType.Required,
   execute: withVoiceChannel(execute, { checkBeforeJoin }),
   withVoiceChannel: true,
 }

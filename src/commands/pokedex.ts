@@ -2,7 +2,7 @@ import pokemonInfo from '../templates/pokemonInfo'
 import getPokemon from '../services/pokemon'
 import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../helper/message'
-import { CommandExecution, Command } from '../types'
+import { CommandExecution, Command, CommandParamType } from '../types'
 import { asyncForEach } from '../utilities/array'
 
 const error = [
@@ -29,7 +29,7 @@ const command: Command = {
   desc: 'Show info of pokemons by pokedex ID or English name.',
   aliases: ['poke', 'pokemon'],
   cooldown: 5,
-  param: 2,
+  param: CommandParamType.Required,
   execute,
 }
 

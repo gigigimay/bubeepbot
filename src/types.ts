@@ -34,11 +34,17 @@ export type CommandExecutionWithVoiceChannel = (
   }
 ) => CommandExecution
 
+export enum CommandParamType {
+  None = 'none',
+  Optional = 'optional',
+  Required = 'required',
+}
+
 export interface Command {
   name: string
   desc?: string
   /** 0: no param, 1: optional, 2: required */
-  param: 0 | 1 | 2
+  param: CommandParamType
   execute: CommandExecution
   aliases?: string[]
   cooldown?: number

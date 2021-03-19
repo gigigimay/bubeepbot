@@ -1,5 +1,5 @@
 import { getVoiceLineNational } from './../helper/tts'
-import { Command, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
+import { Command, CommandParamType, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
 import { beep, exampleCommand } from '../utilities/string'
 
 import { withVoiceChannel } from '../helper/execute'
@@ -34,7 +34,7 @@ const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => {
 const command: Command = {
   name: 'nationalsay',
   desc: 'My friend will say it. (my friend list: https://responsivevoice.org/text-to-speech-languages/)',
-  param: 2, // 0: no param, 1: optional, 2: required
+  param: CommandParamType.Required,
   execute: withVoiceChannel(execute, { checkBeforeJoin }),
   withVoiceChannel: true,
 }

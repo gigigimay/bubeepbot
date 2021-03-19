@@ -1,7 +1,7 @@
 import fp from 'lodash/fp'
 import { EmbedField } from 'discord.js'
 
-import { CommandExecution, Command } from './../types'
+import { CommandExecution, Command, CommandParamType } from './../types'
 import { prefix } from '../config.json'
 import Commands, { getCommand } from '../helper/command'
 import embed from '../templates/embed'
@@ -75,7 +75,7 @@ const execute: CommandExecution = ({ message, param = '' }) => {
 const command: Command = {
   name: 'help',
   desc: 'Show all the command bubeep knows!',
-  param: 1,
+  param: CommandParamType.Optional,
   execute,
 }
 

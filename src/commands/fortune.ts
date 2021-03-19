@@ -1,4 +1,4 @@
-import { CommandExecution, TarotCard, Command } from './../types'
+import { CommandExecution, TarotCard, Command, CommandParamType } from './../types'
 import { exampleCommand, beep, withStar } from '../utilities/string'
 import { sendError } from '../helper/message'
 
@@ -71,7 +71,7 @@ const command: Command = {
   name: 'fortune',
   desc: 'Let me read your mind then represent it as a card. ',
   cooldown: 5,
-  param: 1,
+  param: CommandParamType.Optional,
   execute,
 }
 
