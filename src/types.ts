@@ -43,7 +43,6 @@ export enum CommandParamType {
 export interface Command {
   name: string
   desc?: string
-  /** 0: no param, 1: optional, 2: required */
   param: CommandParamType
   execute: CommandExecution
   aliases?: string[]
