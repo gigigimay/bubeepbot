@@ -9,32 +9,27 @@ const emptyParamError = [
   exampleCommand('nationalsay th/male/goodnight'),
 ]
 
-const error = [
+const invalidParamError = [
   beep('You may give bubeep not enough information.'),
-  exampleCommand('nationalsay th/male/goodnight'),
-]
-
-const errorWrongParam = [
-  beep('You may give bubeep not correct data.'),
   exampleCommand('nationalsay th/male/goodnight'),
 ]
 
 const execute: WithVoiceChannelCallback = async ({ connection, param, message }) => {
   if (param) {
     const params = param.split('/')
-    if (params.length === 3) {
-      try {
-        connection.play(getVoiceLineNational(params[0], params[1], params[2]))
-      } catch {
-        message.channel.send(errorWrongParam)
-      }
-    } else {
-      message.channel.send(error)
-    }
+    const url = await getVoiceLineNational(params[0], params[1], params[2])
+    connection.play(url)
   }
 }
 
-const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => !param && emptyParamError
+const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => {
+  if (!param) return emptyParamError
+
+  const params = param.split('/')
+  if (params.length !== 3) {
+    return invalidParamError
+  }
+}
 
 const command: Command = {
   name: 'nationalsay',
