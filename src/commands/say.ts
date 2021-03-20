@@ -16,10 +16,10 @@ const emptyParamError = [
   exampleCommand('say goodnight'),
 ]
 
-const checks: Array<[string, (v: string) => string | Promise<string>]> = [
-  ['gender', getGender],
-  ['lang', checkLanguageValid],
-]
+enum SetType {
+  Gender = 'gender',
+  Language = 'lang'
+}
 
 const execute: WithVoiceChannelCallback = async ({ connection, param, message }) => {
   if (param) {
@@ -31,32 +31,37 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
   }
 }
 
-const createCheckSet = (
-  param: string,
-  username: string,
-) => async (
-  key: string,
-  getValue?: (v: string) => string | Promise<string>,
-) => {
+const checkType = async (username: string, param: string) => {
   const params = param.split(' ')
   if (params.length === 2) {
-    if (params[0] === `--${key}`) {
-      const value = getValue ? await getValue(params[1]) : params[1]
-      _.set(memory, `${username}.${key}`, value)
-      return [[`[${username}] ${key}:`, value].join(' ')]
+    const type = params[0].replace('--', '')
+    const value = params[1]
+
+    var saveValue: string
+
+    switch (`${type}`) {
+      case SetType.Gender:
+        saveValue = getGender(value)
+        break
+      case SetType.Language:
+        saveValue = await checkLanguageValid(value)
+        break
+      default:
+        return
     }
+
+    _.set(memory, `${username}.${type}`, saveValue)
+    return [[`[${username}] ${type}:`, value].join(' ')]
+
   }
+
 }
 
 const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message }) => {
   if (!param) return emptyParamError
 
   const username = getAuthorUsername(message)
-  const checkSet = createCheckSet(param, username)
-  for (const check of checks) {
-    const result = await checkSet(check[0], check[1])
-    if (result) return result
-  }
+  return checkType(username, param)
 }
 
 const command: Command = {
