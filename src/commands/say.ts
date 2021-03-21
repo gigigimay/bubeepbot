@@ -16,9 +16,11 @@ const emptyParamError = [
   exampleCommand('say goodnight'),
 ]
 
-enum SetType {
-  Gender = 'gender',
-  Language = 'lang'
+type MemoryConfig = IIndexable<(v: string) => string | Promise<string>>
+const setT: MemoryConfig = {
+  gender: getGender,
+  lang: checkLanguageValid,
+  else: (v) => v
 }
 
 const execute: WithVoiceChannelCallback = async ({ connection, param, message }) => {
@@ -31,28 +33,18 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
   }
 }
 
-const checkType = async (username: string, param: string) => {
+const createCheckSet = async (
+  param: string,
+  username: string,
+  memoryConfig: MemoryConfig
+) => {
   const params = param.split(' ')
-  if (params.length === 2) {
-    const type = params[0].replace('--', '')
-    const value = params[1]
+  if (params.length === 2 && params[0].startsWith(`--`) && memoryConfig[params[0]]) {
+    const key = params[0]
+    const value: string = await memoryConfig[params[0]](params[1])
 
-    var saveValue: string
-
-    switch (`${type}`) {
-      case SetType.Gender:
-        saveValue = getGender(value)
-        break
-      case SetType.Language:
-        saveValue = await checkLanguageValid(value)
-        break
-      default:
-        return
-    }
-
-    _.set(memory, `${username}.${type}`, saveValue)
-    return [[`[${username}] ${type}:`, value].join(' ')]
-
+    _.set(memory, `${username}.${key}`, value)
+    return [[`[${username}] ${key}:`, value].join(' ')]
   }
 
 }
@@ -61,7 +53,9 @@ const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message
   if (!param) return emptyParamError
 
   const username = getAuthorUsername(message)
-  return checkType(username, param)
+  const result = await createCheckSet(param, username, setT)
+  if (result) return result
+
 }
 
 const command: Command = {
