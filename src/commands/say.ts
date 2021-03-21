@@ -16,10 +16,12 @@ const emptyParamError = [
   exampleCommand('say goodnight'),
 ]
 
-const checks: Array<[string, (v: string) => string | Promise<string>]> = [
-  ['gender', getGender],
-  ['lang', checkLanguageValid],
-]
+type MemoryConfig = IIndexable<(v: string) => string | Promise<string>>
+const setT: MemoryConfig = {
+  gender: getGender,
+  lang: checkLanguageValid,
+  else: (v) => v
+}
 
 const execute: WithVoiceChannelCallback = async ({ connection, param, message }) => {
   if (param) {
@@ -31,32 +33,29 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
   }
 }
 
-const createCheckSet = (
+const createCheckSet = async (
   param: string,
   username: string,
-) => async (
-  key: string,
-  getValue?: (v: string) => string | Promise<string>,
+  memoryConfig: MemoryConfig
 ) => {
   const params = param.split(' ')
-  if (params.length === 2) {
-    if (params[0] === `--${key}`) {
-      const value = getValue ? await getValue(params[1]) : params[1]
-      _.set(memory, `${username}.${key}`, value)
-      return [[`[${username}] ${key}:`, value].join(' ')]
-    }
+  if (params.length === 2 && params[0].startsWith(`--`) && memoryConfig[params[0]]) {
+    const key = params[0]
+    const value: string = await memoryConfig[params[0]](params[1])
+
+    _.set(memory, `${username}.${key}`, value)
+    return [[`[${username}] ${key}:`, value].join(' ')]
   }
+
 }
 
 const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message }) => {
   if (!param) return emptyParamError
 
   const username = getAuthorUsername(message)
-  const checkSet = createCheckSet(param, username)
-  for (const check of checks) {
-    const result = await checkSet(check[0], check[1])
-    if (result) return result
-  }
+  const result = await createCheckSet(param, username, setT)
+  if (result) return result
+
 }
 
 const command: Command = {
