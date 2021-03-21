@@ -25,7 +25,7 @@ export const createMemoryInstance = <T>(config: MemoryConfig): {
     const key = params[0].replace(/^--/, '')
     const getValue = config[key]
     if (params.length === 2 && params[0].startsWith('--') && getValue !== undefined) {
-      const rawValue = param[1]
+      const rawValue = params[1]
       const value: string = getValue ? await getValue(rawValue) : rawValue
       _.set(memory, `${username}.${key}`, value)
       return [[`[${username}] ${key}:`, value].join(' ')]
