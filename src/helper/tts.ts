@@ -20,7 +20,7 @@ export const getVoiceLine = (text: string | number): string => {
 export const getVoiceLineNational = (langauge: string, gender: string, text: string | number): string => {
   const formatted = encodeURI(`${text}`)
   const genderValue = getGender(gender)
-  const url = `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${formatted}&lang=${langauge}&engine=g3&volume=1&key=WfWmvaX0&gender=${genderValue}&fbclid=IwAR15CgGIrGczJryIOR4nBebhoMimMqNGgk6OZ2G7WwSm04Au2p2lTsf-V8U`
+  const url = (langauge === 'th' && genderValue === Gender.Female) ? getVoiceLine(text) : `https://texttospeech.responsivevoice.org/v1/text:synthesize?text=${formatted}&lang=${langauge}&engine=g3&volume=1&key=WfWmvaX0&gender=${genderValue}&fbclid=IwAR15CgGIrGczJryIOR4nBebhoMimMqNGgk6OZ2G7WwSm04Au2p2lTsf-V8U`
   return url
 }
 
