@@ -20,7 +20,7 @@
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",
     "ffmpeg-static": "^4.2.2",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "node-opus": "^0.3.3"
   },
   "devDependencies": {
