@@ -32,7 +32,7 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
     const username = getAuthorUsername(message)
     const lang = memory[username]?.lang ?? DEFAULT_LANG
     const gender = memory[username]?.gender ?? DEFAULT_GENDER
-    const url = await getVoiceLineNational(lang, gender, param)
+    const url = getVoiceLineNational(lang, gender, param)
     connection.play(url)
   }
 }
