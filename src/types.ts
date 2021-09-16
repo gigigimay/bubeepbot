@@ -73,3 +73,8 @@ export interface Pokemon {
   id: number
   color: string
 }
+
+export interface SlashCommandInfo {
+  name: string
+  description: string
+}
