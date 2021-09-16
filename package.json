@@ -21,7 +21,8 @@
     "esm": "^3.2.25",
     "ffmpeg-static": "^4.2.2",
     "lodash": "^4.17.21",
-    "node-opus": "^0.3.3"
+    "node-opus": "^0.3.3",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.9.6",
