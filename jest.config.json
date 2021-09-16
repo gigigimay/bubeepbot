@@ -4,6 +4,6 @@
   "setupFiles": ["./jest.setup.js"],
   "modulePathIgnorePatterns": ["dist"],
   "transform": {
-    "\\.js$": "babel-jest"
+    "\\.[jt]s$": "babel-jest"
   }
 }
