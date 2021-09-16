@@ -8,7 +8,7 @@ const error = [
 
 const execute: CommandExecution = ({ message, param }) => (param
   ? message.channel.send([param, param, param, beep()].join(' '))
-  : message.channel.send(error))
+  : message.channel.send(error.join('\n')))
 
 const command: Command = {
   name: 'echo',
