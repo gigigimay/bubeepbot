@@ -4,6 +4,9 @@ import { getCommand } from '../helper/command'
 import handleCooldown from './cooldown'
 import { Message } from 'discord.js'
 import { ParsedCommand } from '../types'
+import { createLogger } from '../utilities/logger'
+
+const logger = createLogger()
 
 export default async ({ name, param }: ParsedCommand, message: Message): Promise<void> => {
   const command = getCommand(name)
@@ -20,8 +23,7 @@ export default async ({ name, param }: ParsedCommand, message: Message): Promise
     await command.execute({ message, param })
   } catch (e) {
     if (e.message !== 'cooldown') {
-      // eslint-disable-next-line no-console
-      console.error(e.message)
+      logger.error(e)
       sendError(e, message, `${withStar('BUBEEP')} Mr.Stark, I don't feel so good. :nauseated_face:`)
     }
   }

@@ -1,6 +1,5 @@
 import { Message, VoiceConnection, StringResolvable } from 'discord.js'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface IIndexable<T = any> {
   [key: string]: T
 }
