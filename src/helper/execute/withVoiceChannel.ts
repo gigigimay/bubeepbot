@@ -62,6 +62,7 @@ const withVoiceChannel: CommandExecutionWithVoiceChannel = (
   const channelId = message.member?.voice.channelId
   const guildId = message.guildId
   const adapterCreator = message.guild?.voiceAdapterCreator
+
   if (channelId && guildId && adapterCreator) {
     /** join voice */
     const connection = joinVoiceChannel({
