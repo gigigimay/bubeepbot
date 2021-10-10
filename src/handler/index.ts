@@ -21,7 +21,7 @@ export default async ({ name, param }: ParsedCommand, message: Message): Promise
   try {
     await handleCooldown(message, command)
     await command.execute({ message, param })
-  } catch (e) {
+  } catch (e: any) {
     if (e.message !== 'cooldown') {
       logger.error(e)
       sendError(e, message, `${withStar('BUBEEP')} Mr.Stark, I don't feel so good. :nauseated_face:`)

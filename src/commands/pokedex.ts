@@ -8,7 +8,7 @@ import { asyncForEach } from '../utilities/array'
 const error = [
   beep('You need to give bubeep a number or a name.'),
   exampleCommand('pokedex 385 ditto'),
-]
+].join('\n')
 
 const execute: CommandExecution = ({ message, param = '' }) => {
   if (!param) return message.channel.send(error)
@@ -17,8 +17,8 @@ const execute: CommandExecution = ({ message, param = '' }) => {
     try {
       const data = await getPokemon(+p)
       const info = pokemonInfo(data, { author: { name: `result of ${p}: ` } })
-      message.channel.send(info)
-    } catch (e) {
+      message.channel.send({ embeds: [info] })
+    } catch (e: any) {
       sendError(e, message, `${withStar('BEEPBOOP')} Couldn't find data of \`${p}\``)
     }
   })

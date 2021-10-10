@@ -1,6 +1,6 @@
-import { Message, VoiceChannel, User } from 'discord.js'
+import { Message, VoiceChannel, User, StageChannel } from 'discord.js'
 
-export const getVoiceChannel = (message: Message): VoiceChannel | null | undefined => message.member?.voice.channel
+export const getVoiceChannel = (message: Message): VoiceChannel | StageChannel | null | undefined => message.member?.voice.channel
 export const getAuthorUsername = (message: Message): string => message.author.username
 export const getAuthorNickname = (message: Message): string | null | undefined => message.member?.nickname
 
@@ -29,4 +29,4 @@ export const sendError = (e: Error, message: Message, text = ''): Promise<Messag
     '```',
     e.message,
     '```',
-  ])
+  ].join('\n'))

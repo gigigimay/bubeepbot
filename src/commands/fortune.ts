@@ -14,7 +14,7 @@ const MAJOR_CARDS_LENGTH = 22
 const error = [
   beep('You may give bubeep a wrong type.'),
   exampleCommand('tarot normal or n!tarot single'),
-]
+].join('\n')
 
 const randomReverse = (): boolean => getRandomInt(1) === 0
 const randomCardNumber = (): number => getRandomInt(MAJOR_CARDS_LENGTH - 1)
@@ -58,12 +58,12 @@ const execute: CommandExecution = async ({ message, param = 'normal' }) => {
 
     if (data) {
       data.forEach((item) => {
-        message.channel.send(fortuneInfo(item))
+        message.channel.send({ embeds: [fortuneInfo(item)] })
       })
     } else {
       await message.channel.send(error)
     }
-  } catch (e) {
+  } catch (e: any) {
     await sendError(e, message, `${withStar('BEEPBOOP')} Something Error O_o`)
   }
 }

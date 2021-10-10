@@ -40,30 +40,34 @@ const execute: CommandExecution = ({ message, param = '' }) => {
     const command = getCommand(param)
     if (command) {
       const commandData = transformCommand(commandDataConfig, command)
-      message.channel.send(embed({
-        thumbnail: null,
-        footer: null,
-        timestamp: null,
-        author: { name: 'bubeep command:' },
-        title: command.name,
-        fields: commandData,
-      }))
+      message.channel.send({
+        embeds: [embed({
+          thumbnail: null,
+          footer: null,
+          timestamp: null,
+          author: { name: 'bubeep command:' },
+          title: command.name,
+          fields: commandData,
+        })],
+      })
       return
     }
   }
   const commands = Commands.map((c) => `\`${c.name}\` - ${c.desc}`)
-  message.channel.send(embed({
-    thumbnail: null,
-    footer: null,
-    timestamp: null,
-    title: 'Command list',
-    description: [
-      ...commands,
-      '',
-      `You can type \`${prefix}help <command>\``,
-      'if you feel like getting to know me more. :white_heart:',
-    ].join('\n'),
-  }))
+  message.channel.send({
+    embeds: [embed({
+      thumbnail: null,
+      footer: null,
+      timestamp: null,
+      title: 'Command list',
+      description: [
+        ...commands,
+        '',
+        `You can type \`${prefix}help <command>\``,
+        'if you feel like getting to know me more. :white_heart:',
+      ].join('\n'),
+    })],
+  })
 }
 
 const command: Command = {

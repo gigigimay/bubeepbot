@@ -1,4 +1,5 @@
-import { Message, VoiceConnection, StringResolvable } from 'discord.js'
+import { Interaction, Message, UserResolvable, CommandInteraction } from 'discord.js'
+import { VoiceConnection } from '@discordjs/voice'
 
 export interface IIndexable<T = any> {
   [key: string]: T
@@ -10,6 +11,7 @@ export interface CommandExecutionArgs {
 }
 
 export type CommandExecution = (args: CommandExecutionArgs) => void
+export type CommandInteractionExecution = (interaction: CommandInteraction) => void
 
 export type WithVoiceChannelCallback = (args: {
   message: Message
@@ -25,7 +27,7 @@ export type CommandExecutionWithVoiceChannel = (
   callback: WithVoiceChannelCallback,
   options?: {
     /** error message to reply when user is not in a voice channel. */
-    noConnectionError?: StringResolvable
+    noConnectionError?: string
     /**
      * `checkBeforeJoin` - a callback function that execute before join.
      * if the function returns false, command will end and bot will not join channel. */
@@ -44,6 +46,7 @@ export interface Command {
   desc?: string
   param: CommandParamType
   execute: CommandExecution
+  interactionExecute?: CommandInteractionExecution
   aliases?: string[]
   cooldown?: number
   withVoiceChannel?: boolean
