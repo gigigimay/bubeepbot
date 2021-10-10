@@ -1,6 +1,6 @@
 import { REST } from '@discordjs/rest'
 import { Routes } from 'discord-api-types/v9'
-import { SlashCommandInfo } from '../types'
+import { SlashCommandBuilder } from '@discordjs/builders'
 import { createLogger } from '../utilities/logger'
 
 const logger = createLogger('helper/guild.ts')
@@ -12,7 +12,7 @@ const rest = new REST({ version: '9' }).setToken(BOT_TOKEN)
 
 export const refreshGuildCommands = async (
   guildId: string,
-  commandConfig: SlashCommandInfo[],
+  commandConfig: SlashCommandBuilder[],
 ): Promise<void> => {
   try {
     logger.info(`Started refreshing application (/) commands for guildId ${guildId}.`)

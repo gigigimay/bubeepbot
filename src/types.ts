@@ -1,4 +1,4 @@
-import { Interaction, Message, UserResolvable, CommandInteraction } from 'discord.js'
+import { Message, CommandInteraction } from 'discord.js'
 import { VoiceConnection } from '@discordjs/voice'
 
 export interface IIndexable<T = any> {
@@ -75,9 +75,4 @@ export interface Pokemon {
   types: PokemonType[]
   id: number
   color: string
-}
-
-export interface SlashCommandInfo {
-  name: string
-  description: string
 }

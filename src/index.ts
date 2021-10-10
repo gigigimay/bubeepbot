@@ -1,43 +1,13 @@
-import { CommandParamType, SlashCommandInfo } from './types'
-import { Client, Intents, Message } from 'discord.js'
+import { Client, Intents } from 'discord.js'
 import { getVoiceConnection, joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, createAudioResource, AudioPlayerStatus } from '@discordjs/voice'
 import { parseCommand } from './utilities/string'
 import handler from './handler'
-// import { init as initCommands } from './helper/command'
+import { getSlashCommands, init as initCommands } from './helper/command'
 import { refreshGuildCommands } from './helper/guild'
 import { createLogger } from './utilities/logger'
 import { handleCommandInteraction } from './handler/interaction'
-import Commands, { init, getCommand } from './helper/command'
-import { SlashCommandBuilder } from '@discordjs/builders'
 
 const logger = createLogger('index.ts')
-
-// FIXME
-const slashCommands = [
-  {
-    name: 'ping',
-    description: 'Replies with Pong!',
-  },
-  {
-    name: 'beep',
-    description: 'Beep beep 01!',
-  },
-  {
-    name: 'move',
-    description: 'I like to move it, move it.',
-  },
-  new SlashCommandBuilder()
-    .setName('echo')
-    .setDescription('echo')
-    .addStringOption((option) => option.setName('input')
-      .setDescription('The input to echo back')
-      .setRequired(true))
-    .addStringOption((option) => option.setName('input2')
-      .setDescription('The input to echo back')
-      .setRequired(true)),
-]
-
-let slashCommands2: SlashCommandInfo[] = []
 
 const client = new Client({
   intents: [
@@ -46,29 +16,12 @@ const client = new Client({
   ],
 })
 
-// initCommands()
+initCommands()
+const slashCommands = getSlashCommands()
 
 // trigger once after logging in
 client.once('ready', () => {
   logger.info(`[${client.user?.tag}] ready to comply.`)
-
-  init()
-  slashCommands2 = Commands.map((command) => {
-    const slashCommand = new SlashCommandBuilder()
-      .setName(command.name)
-      .setDescription(command.desc ?? '')
-
-    if (command.param !== CommandParamType.None) {
-      slashCommand.addStringOption((option) => option.setName('param')
-        .setDescription('param')
-        .setRequired(command.param === CommandParamType.Required))
-    }
-
-    return slashCommand
-  })
-
-  console.log('message >>>', Commands)
-  console.log('message >>>', slashCommands2)
 })
 
 client.on('interactionCreate', (interaction) => {
@@ -78,29 +31,21 @@ client.on('interactionCreate', (interaction) => {
 
 // // subscribe to message event
 client.on('messageCreate', (message) => {
-  console.log('message >>>', message.member?.voice.channelId)
-  console.log('message >>>', message.member?.fetch())
-
   // FIXME move to message command
   if (message.content === 'refresh') {
     if (message.guildId) {
-      refreshGuildCommands(message.guildId, slashCommands2)
+      refreshGuildCommands(message.guildId, slashCommands)
       message.reply('refreshing command done!')
+      return
     }
   }
-
-  // if (message.content === 'find') {
-  //   console.log('find: me ', message.guild?.me?.voice.channel?.name)
-  //   console.log('find: channel id >>>', message.member?.voice.channel?.name)
-  //   console.log('find: channel id by cache >>>', message.guild?.members.cache.get(message.author.id)?.voice.id)
-  // }
 
   if (message.content === 'list') {
     message.guild?.channels.fetch().then((channels) => {
       channels.forEach((channel) => {
-        console.log('list: channel id >>>', channel.type)
+        console.log('\nlist: channel type >>>', channel.type)
         console.log('list: channel id >>>', channel.id)
-        console.log('list: channel id >>>', channel.name)
+        console.log('list: channel name >>>', channel.name)
       })
     })
   }

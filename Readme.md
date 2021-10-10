@@ -26,6 +26,10 @@ yarn
 yarn dev
 ```
 
+### Deployment
+
+We use circleCI to trigger the deployment to Heroku
+
 ### Other notes
 
 - For code formatting, add and enable `eslint` extension to your VSCode.

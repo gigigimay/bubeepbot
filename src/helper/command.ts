@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import fs from 'fs'
 import Discord from 'discord.js'
-import { Command } from '../types'
+import { SlashCommandBuilder } from '@discordjs/builders'
+import { Command, CommandParamType } from '../types'
 
 const Commands = new Discord.Collection<string, Command>()
 
@@ -23,6 +24,28 @@ export const init = (): void => {
 export const getCommand = (name: string): Command | undefined => {
   return Commands.get(name) ??
     Commands.find((cmd: Command) => cmd.aliases ? cmd.aliases.includes(name) : false)
+}
+
+export const getSlashCommands = (): SlashCommandBuilder[] => {
+  const result: SlashCommandBuilder[] = []
+  Commands.forEach((command) => {
+    if (!command.interactionExecute) {
+      return
+    }
+
+    const builder = new SlashCommandBuilder()
+      .setName(command.name)
+      .setDescription(command.desc ?? '')
+
+    if (command.param !== CommandParamType.None) {
+      builder.addStringOption((option) => option.setName('param')
+        .setDescription('param')
+        .setRequired(command.param === CommandParamType.Required))
+    }
+
+    result.push(builder)
+  })
+  return result
 }
 
 export default Commands
