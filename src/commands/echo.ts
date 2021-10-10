@@ -16,7 +16,7 @@ const execute: CommandExecution = ({ message, param }) => (
 
 const interactionExecute: CommandInteractionExecution = (interaction) => {
   const param = interaction.options.getString('param')
-  interaction.channel?.send(getContent(param))
+  interaction.reply(getContent(param))
 }
 
 const command: Command = {
