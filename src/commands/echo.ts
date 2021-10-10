@@ -15,7 +15,7 @@ const execute: CommandExecution = ({ message, param }) => (
 )
 
 const interactionExecute: CommandInteractionExecution = (interaction) => {
-  const param = interaction.options.getString('param')
+  const param = interaction.options.getString('word')
   interaction.reply(getContent(param))
 }
 
@@ -23,6 +23,13 @@ const command: Command = {
   name: 'echo',
   desc: 'I say whatever you say x3',
   param: CommandParamType.Required,
+  options: [
+    {
+      name: 'word',
+      description: 'something you want bubeep to say',
+      isRequired: true
+    }
+  ],
   execute,
   interactionExecute,
 }

@@ -2,7 +2,8 @@
 import fs from 'fs'
 import Discord from 'discord.js'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { Command, CommandParamType } from '../types'
+import { Command } from '../types'
+import { ApplicationCommandOptionType } from 'discord-api-types'
 
 const Commands = new Discord.Collection<string, Command>()
 
@@ -37,10 +38,20 @@ export const getSlashCommands = (): SlashCommandBuilder[] => {
       .setName(command.name)
       .setDescription(command.desc ?? '')
 
-    if (command.param !== CommandParamType.None) {
-      builder.addStringOption((option) => option.setName('param')
-        .setDescription('param')
-        .setRequired(command.param === CommandParamType.Required))
+    if (command.options) {
+      command.options.forEach(({ name, description, isRequired = false, type }) => {
+        // TODO: add other option types
+        switch (type) {
+          case ApplicationCommandOptionType.String:
+          default:
+            builder.addStringOption((option) => {
+              return option
+                .setName(name)
+                .setDescription(description ?? '')
+                .setRequired(isRequired)
+            })
+        }
+      })
     }
 
     result.push(builder)

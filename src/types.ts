@@ -1,5 +1,6 @@
 import { Message, CommandInteraction } from 'discord.js'
 import { VoiceConnection } from '@discordjs/voice'
+import { ApplicationCommandOptionType } from 'discord-api-types'
 
 export interface IIndexable<T = any> {
   [key: string]: T
@@ -41,10 +42,18 @@ export enum CommandParamType {
   Required = 'required',
 }
 
+export interface CommandOptionInfo {
+  name: string
+  description?: string
+  type?: ApplicationCommandOptionType // default = String
+  isRequired?: boolean // default = false
+}
+
 export interface Command {
   name: string
   desc?: string
   param: CommandParamType
+  options?: CommandOptionInfo[]
   execute: CommandExecution
   interactionExecute?: CommandInteractionExecution
   aliases?: string[]
