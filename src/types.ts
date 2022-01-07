@@ -19,9 +19,16 @@ export type WithVoiceChannelCallback = (args: {
   param?: string
   connection: VoiceConnection
 }) => Promise<void>
+export type InteractionWithVoiceChannelCallback = (args: {
+  interaction: CommandInteraction
+  connection: VoiceConnection
+}) => Promise<void>
 
 export type WithVoiceChannelCheckBeforeJoin = (
   args: CommandExecutionArgs
+) => Promise<string | string[] | undefined> | string | string[] | undefined
+export type InteractionWithVoiceChannelCheckBeforeJoin = (
+  args: CommandInteraction
 ) => Promise<string | string[] | undefined> | string | string[] | undefined
 
 export type CommandExecutionWithVoiceChannel = (
@@ -35,6 +42,18 @@ export type CommandExecutionWithVoiceChannel = (
     checkBeforeJoin?: WithVoiceChannelCheckBeforeJoin
   }
 ) => CommandExecution
+
+export type CommandInteractionExecutionWithVoiceChannel = (
+  callback: InteractionWithVoiceChannelCallback,
+  options?: {
+    /** error message to reply when user is not in a voice channel. */
+    noConnectionError?: string
+    /**
+     * `checkBeforeJoin` - a callback function that execute before join.
+     * if the function returns false, command will end and bot will not join channel. */
+    checkBeforeJoin?: InteractionWithVoiceChannelCheckBeforeJoin
+  }
+) => CommandInteractionExecution
 
 export enum CommandParamType {
   None = 'none',

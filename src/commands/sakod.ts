@@ -9,10 +9,10 @@ const emptyParamError = [
   exampleCommand('sakod eiei'),
 ]
 
-const execute: WithVoiceChannelCallback = async ({ param, message }) => {
+const execute: WithVoiceChannelCallback = async ({ param, message, connection }) => {
   if (param) {
     const word = param.split('').join(' ')
-    await playSound(message.guildId, getVoiceLine(word))
+    await playSound(connection, getVoiceLine(word))
   }
 }
 

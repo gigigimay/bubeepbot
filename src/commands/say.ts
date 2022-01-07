@@ -34,7 +34,7 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
     const lang = memory[username]?.lang ?? DEFAULT_LANG
     const gender = memory[username]?.gender ?? DEFAULT_GENDER
     const url = getVoiceLineNational(lang, gender, param)
-    await playSound(message.guildId, url)
+    await playSound(connection, url)
   }
 }
 

@@ -1,5 +1,5 @@
 import { getVoiceLineNational } from './../helper/tts'
-import { Command, CommandParamType, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
+import { Command, CommandParamType, InteractionWithVoiceChannelCheckBeforeJoin, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
 import { beep, exampleCommand } from '../utilities/string'
 import { playSound } from '../helper/connection'
 
@@ -19,14 +19,22 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
   if (param) {
     const params = param.split('/')
     const url = await getVoiceLineNational(params[0], params[1], params[2])
-    await playSound(message.guildId, url)
+    await playSound(connection, url)
   }
 }
 
 const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = ({ param }) => {
   if (!param) return emptyParamError
-
   const params = param.split('/')
+  if (params.length !== 3) {
+    return invalidParamError
+  }
+}
+
+const interactionCheckBeforeJoin: InteractionWithVoiceChannelCheckBeforeJoin = (interaction) => {
+  if (!interaction.options) return emptyParamError
+
+  const params = interaction.options.data
   if (params.length !== 3) {
     return invalidParamError
   }

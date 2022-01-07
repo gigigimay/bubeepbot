@@ -1,1 +1,4 @@
-export { default as withVoiceChannel } from './withVoiceChannel'
+export {
+  default as withVoiceChannel,
+  interactionWithVoiceChannel
+} from './withVoiceChannel'
