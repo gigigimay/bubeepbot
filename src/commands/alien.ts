@@ -17,8 +17,8 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
   if (interaction.options.getBoolean('see_rules')) {
     content += '🎯 RULES\n' +
       '1. One of you is an alien\n' +
-      '2. Every one will got the same set of question but alien will got a bit different\n' +
-      '3. Each of you can ask another player one question you got\n' +
+      '2. Every one will got the exactly same set of question but alien will got a bit different\n' +
+      '3. Each of you can ask another player one question using the question number eg. "Mr.A, please answer question number 1."\n' +
       '4. After every one asked and answered, guess who is the alien\n'
   }
   content += '👽 LET\'S FIND AN ALIEN 👽\nplease wait until ▶️ ready to react before join\n🖐 to join & ▶️ to start'
