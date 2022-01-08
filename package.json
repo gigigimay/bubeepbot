@@ -22,6 +22,7 @@
     "discord.js": "^13.6.0",
     "dotenv": "^11.0.0",
     "ffmpeg-static": "^4.4.1",
+    "googleapis": "^92.0.0",
     "libsodium-wrappers": "^0.7.9",
     "lodash": "^4.17.21",
     "winston": "^3.4.0"
