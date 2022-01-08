@@ -11,7 +11,7 @@ const TOKEN_PATH = 'token.json'
 
 // Load client secrets from a local file.
 export const tryReadSheet = (callback: readSheetCallback) => {
-    fs.readFile('src/resource/credentials.json', (err: any, content: any) => {
+    fs.readFile('credentials.json', (err: any, content: any) => {
         if (err) return console.log('Error loading client secret file:', err)
         // Authorize a client with credentials, then call the Google Sheets API.
         authorize(JSON.parse(content), callback)

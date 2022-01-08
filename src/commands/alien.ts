@@ -13,7 +13,19 @@ const execute: CommandExecution = ({ message, param }) => (
 )
 
 const interactionExecute: CommandInteractionExecution = async (interaction) => {
-  const message = await interaction.reply({ content: '👽 FIND AN ALIEN 👽\n 🖐 to join & ▶️ to start', fetchReply: true }) as Message
+  let content = ''
+  if (interaction.options.getBoolean('see_rules')) {
+    content += '🎯 RULES\n' +
+      '1. One of you is an alien\n' +
+      '2. Every one will got the same set of question but alien will got a bit different\n' +
+      '3. Each of you can ask another player one question you got\n' +
+      '4. After every one asked and answered, guess who is the alien\n'
+  }
+  content += '👽 LET\'S FIND AN ALIEN 👽\nplease wait until ▶️ ready to react before join\n🖐 to join & ▶️ to start'
+
+  const message = await interaction.reply({
+    content: content, fetchReply: true
+  }) as Message
   message.react('🖐')
     .then(() => message.react('▶️'))
     .then(() => waitForNextReaction(message))
@@ -100,8 +112,16 @@ const createQuestionText = (questions: string[]) => {
 
 const command: Command = {
   name: 'alien',
-  desc: 'find the alien',
-  param: CommandParamType.None,
+  desc: 'Find the alien!',
+  param: CommandParamType.Optional,
+  options: [
+    {
+      name: 'see_rules',
+      description: 'Do you want to see play rules?',
+      type: 5,
+      isRequired: false
+    }
+  ],
   execute,
   interactionExecute,
 }
