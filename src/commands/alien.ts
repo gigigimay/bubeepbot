@@ -63,7 +63,7 @@ const waitForNextReaction = (message: Message) => {
 const sendQuestions = async (sheets: sheets_v4.Sheets) => {
   sheets.spreadsheets.values.get({
     spreadsheetId: '1FId-8RNEedkMRCSEh9-agXmNB47ZsI_tW4q4_PNjitA',
-    range: 'A1:C10',
+    range: 'alien_q_db',
   }, (err: any, res: any) => {
     if (err) return console.log('The API returned an error: ' + err)
     const [humanQuestions, alienQuestions] = createQuestions(res.data.values)
