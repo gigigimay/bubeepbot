@@ -73,14 +73,14 @@ const sendQuestions = async (sheets: sheets_v4.Sheets) => {
   })
 }
 
-const createQuestions = (data: []): [string[], string[]] => {
+const createQuestions = (data: [][]): [string[], string[]] => {
   if (data.length) {
     let humanQuestions: string[] = []
     let alienQuestions: string[] = []
-    const rowSize: number = 10 // use max row available
+    const rowSize: number = data.length // use max row available
     const rowNumbers = getNotDuplicatedRandomNumbers(rowSize)(players.length + 1)
     rowNumbers.forEach((rowNumber) => {
-      const columnSize = 2 // use max column available
+      const columnSize = data[rowNumber].length // use max column available
       const columnNumbers = getNotDuplicatedRandomNumbers(columnSize)(2)
       humanQuestions.push(data[rowNumber][columnNumbers[0]])
       alienQuestions.push(data[rowNumber][columnNumbers[1]])
