@@ -2,9 +2,11 @@ import fp from 'lodash/fp'
 import { EmbedField } from 'discord.js'
 
 import { CommandExecution, Command, CommandParamType } from './../types'
-import { prefix } from '../config.json'
+import config from '../config'
 import Commands, { getCommand } from '../helper/command'
 import embed from '../templates/embed'
+
+const { prefix } = config
 
 interface CommandDataConfig {
   key: string

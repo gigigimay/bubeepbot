@@ -4,7 +4,7 @@ import { VoiceConnection, joinVoiceChannel, DiscordGatewayAdapterCreator } from 
 import { beep, parseCommand } from '../../utilities/string'
 import { getCommand } from '../command'
 import { getVoiceChannel } from '../message'
-import config from '../../config.json'
+import config from '../../config'
 import { CommandExecutionWithVoiceChannel } from '../../types'
 
 const defaultError = beep('You need to join a voice channel.')
