@@ -4,7 +4,7 @@ export const createLogger = (label = '*'): Logger =>
   createWinstonLogger({
     format: format.combine(
       format.colorize(),
-      format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
+      format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       format.label({ label }),
       format.printf(
         (lgr) =>
