@@ -1,19 +1,41 @@
 import fp from 'lodash/fp'
-import { VoiceConnection, createAudioPlayer, createAudioResource, AudioPlayerStatus } from '@discordjs/voice'
+import { createAudioPlayer, createAudioResource, getVoiceConnection } from '@discordjs/voice'
 import { asyncForEach } from '../utilities/array'
+import { createLogger } from '../utilities/logger'
 
-export const playSound = (connection: VoiceConnection, sound: string | string[]): Promise<void> => new Promise((resolve) => {
-  if (fp.isNil(sound) || fp.isEmpty(sound)) resolve()
-  if (typeof sound === 'string') {
+const playSoundLogger = createLogger('playSound')
+
+export const playSound = (
+  guildId: string | null,
+  audioUrl: string | string[]
+): Promise<void> => new Promise((resolve, reject) => {
+  if (fp.isNil(audioUrl) || fp.isEmpty(audioUrl) || !guildId) {
+    return resolve()
+  }
+
+  if (typeof audioUrl === 'string') {
+    const connection = getVoiceConnection(guildId)
     const player = createAudioPlayer()
-    const resource = createAudioResource(sound)
-    player.play(resource)
-    player.on(AudioPlayerStatus.AutoPaused, () => {
-      resolve()
+    const resource = createAudioResource(audioUrl)
+
+    player.on('error', (err) => {
+      playSoundLogger.error(err)
+      reject(err)
     })
-    resolve() // TODO: strange code here 👀
-  } else if (Array.isArray(sound)) {
-    Promise.resolve(asyncForEach<string>(sound, (s) => playSound(connection, s)))
+
+    player.on('stateChange', (oldState, newState) => {
+      playSoundLogger.debug(`voice player stateChange '${oldState.status}' -> '${newState.status}'`)
+
+      if (['idle', 'autopaused'].includes(newState.status)) {
+        player.removeAllListeners()
+        resolve()
+      }
+    })
+
+    player.play(resource)
+    connection?.subscribe(player)
+  } else if (Array.isArray(audioUrl)) {
+    Promise.resolve(asyncForEach<string>(audioUrl, (s) => playSound(guildId, s)))
       .then(resolve)
   }
 })
