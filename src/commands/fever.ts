@@ -9,7 +9,7 @@ const execute: WithVoiceChannelCallback = async ({ connection, message }) => {
   const name = getAuthorNickname(message)
   const temperature = getRandomInt(390, 340) / 10
   if (name && temperature) {
-    await playSound(connection, [
+    await playSound(message.guildId, [
       getVoiceLine(name),
       getVoiceLine('อุณหภูมิของท่านคือ'),
       getVoiceLine(temperature),

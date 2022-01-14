@@ -19,7 +19,7 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
   if (param) {
     const params = param.split('/')
     const url = await getVoiceLineNational(params[0], params[1], params[2])
-    await playSound(connection, url)
+    await playSound(message.guildId, url)
   }
 }
 
