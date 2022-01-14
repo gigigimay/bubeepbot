@@ -1,6 +1,6 @@
 import fp from 'lodash/fp'
 import { Message } from 'discord.js'
-import { VoiceConnection, joinVoiceChannel } from '@discordjs/voice'
+import { VoiceConnection, joinVoiceChannel, DiscordGatewayAdapterCreator } from '@discordjs/voice'
 import { beep, parseCommand } from '../../utilities/string'
 import { getCommand } from '../command'
 import { getVoiceChannel } from '../message'
@@ -33,6 +33,7 @@ const tryToDisconnect = async (args: {
         errors: ['time'],
       })
   } catch (e) {
+    console.log(`leaving voice channel after ${time} seconds idle time`)
     connection.disconnect()
   }
 }
@@ -45,29 +46,29 @@ const withVoiceChannel: CommandExecutionWithVoiceChannel = (
     noConnectionError = defaultError,
     checkBeforeJoin = () => undefined,
   } = options
+
+  /** check if the user is not in a voice channel */
   const voiceChannel = getVoiceChannel(message)
   if (!voiceChannel) {
     return message?.channel?.send(noConnectionError)
   }
+
+  /** checkBeforeJoin */
   const error = await checkBeforeJoin({ message, param })
   if (!(fp.isNil(error) || fp.isEmpty(error))) {
     return message?.channel?.send(error.toString())
   }
-  // TODO: continue fix voice here
+
   const channelId = message.member?.voice.channelId
   const guildId = message.guildId
   const adapterCreator = message.guild?.voiceAdapterCreator
-
-  console.log(`connection: channel id >>> ${channelId}`)
-  console.log(`connection: guild id >>> ${guildId}`)
-  console.log(`connection: adapterCreator >>> ${adapterCreator}`)
-
   if (channelId && guildId && adapterCreator) {
-    console.log('will join')
+    /** join voice */
     const connection = joinVoiceChannel({
       channelId: channelId,
       guildId: guildId,
-      adapterCreator: adapterCreator,
+      // TODO: remove type casting when discordjs fixed this type issue
+      adapterCreator: adapterCreator as DiscordGatewayAdapterCreator,
     })
     await callback({ message, param, connection })
     await tryToDisconnect({ message, connection })
