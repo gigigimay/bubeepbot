@@ -12,6 +12,6 @@ export const createLogger = (label = '*'): Logger =>
       ),
     ),
     transports: [
-      new transports.Console({ level: 'http' }),
+      new transports.Console({ level: process.env.LOG_LEVEL || 'http' }),
     ],
   })
