@@ -4,6 +4,7 @@ import { Message, MessageReaction, ReactionCollector, ReactionEmoji, ReactionUse
 import { CommandInteractionExecution, CommandExecution, Command, CommandParamType } from '../types'
 import { getRandomInt } from '../utilities/number'
 import { sheets_v4 } from 'googleapis'
+import { ApplicationCommandOptionType } from 'discord-api-types'
 
 let players: User[] = []
 let alien: User | null = null
@@ -16,10 +17,11 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
   let content = ''
   if (interaction.options.getBoolean('see_rules')) {
     content += '🎯 RULES\n' +
-      '1. One of you is an alien\n' +
-      '2. Every one will got the exactly same set of question but alien will got a bit different\n' +
+      '1. One of you is an 👽 alien!\n' +
+      '2. Every one will got the exactly same set of question but the alien will got a bit different\n' +
       '3. Each of you can ask another player one question using the question number eg. "Mr.A, please answer question number 1."\n' +
-      '4. After every one asked and answered, guess who is the alien\n'
+      '4. After every one asked and answered, guess who is the alien\n' +
+      'See all possible questions here: https://docs.google.com/spreadsheets/d/1FId-8RNEedkMRCSEh9-agXmNB47ZsI_tW4q4_PNjitA/edit?usp=sharing\n'
   }
   content += '👽 LET\'S FIND AN ALIEN 👽\nplease wait until ▶️ ready to react before join\n🖐 to join & ▶️ to start'
 
@@ -118,7 +120,7 @@ const command: Command = {
     {
       name: 'see_rules',
       description: 'Do you want to see play rules?',
-      type: 5,
+      type: ApplicationCommandOptionType.Boolean,
       isRequired: false
     }
   ],
