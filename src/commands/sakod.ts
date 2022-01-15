@@ -2,16 +2,17 @@ import { WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin, Command, Com
 import { beep, exampleCommand } from '../utilities/string'
 import { getVoiceLine } from '../helper/tts'
 import { withVoiceChannel } from '../helper/execute'
+import { playSound } from '../helper/connection'
 
 const emptyParamError = [
   beep('Please tell bubeep what to *sakod*.'),
   exampleCommand('sakod eiei'),
 ]
 
-const execute: WithVoiceChannelCallback = async ({ connection, param }) => {
+const execute: WithVoiceChannelCallback = async ({ param, message, connection }) => {
   if (param) {
     const word = param.split('').join(' ')
-    connection.play(getVoiceLine(word))
+    await playSound(connection, getVoiceLine(word))
   }
 }
 

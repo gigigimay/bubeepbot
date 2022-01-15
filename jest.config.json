@@ -1,9 +1,7 @@
 {
   "preset": "ts-jest",
+  "testEnvironment": "node",
   "testRegex": "((\\.|/*.)(test))\\.(js|ts)?$",
   "setupFiles": ["./jest.setup.js"],
-  "modulePathIgnorePatterns": ["dist"],
-  "transform": {
-    "\\.js$": "babel-jest"
-  }
+  "modulePathIgnorePatterns": ["dist"]
 }

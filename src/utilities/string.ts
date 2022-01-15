@@ -1,5 +1,7 @@
-import { prefix } from '../config.json'
+import config from '../config'
 import { ParsedCommand } from '../types'
+
+const { prefix } = config
 
 export const withStar = (str?: string): string => (str ? `\\*${str}\\*` : '')
 

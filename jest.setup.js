@@ -1,4 +1,4 @@
 jest.mock('discord.js', () => ({}))
-jest.mock('./src/config.json', () => ({
+jest.mock('./src/config', () => ({
   prefix: '!',
 }))

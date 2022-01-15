@@ -1,6 +1,7 @@
-import { Message, VoiceConnection, StringResolvable } from 'discord.js'
+import { Message, CommandInteraction } from 'discord.js'
+import { VoiceConnection } from '@discordjs/voice'
+import { ApplicationCommandOptionType } from 'discord-api-types'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export interface IIndexable<T = any> {
   [key: string]: T
 }
@@ -11,22 +12,30 @@ export interface CommandExecutionArgs {
 }
 
 export type CommandExecution = (args: CommandExecutionArgs) => void
+export type CommandInteractionExecution = (interaction: CommandInteraction) => void
 
 export type WithVoiceChannelCallback = (args: {
   message: Message
   param?: string
   connection: VoiceConnection
 }) => Promise<void>
+export type InteractionWithVoiceChannelCallback = (args: {
+  interaction: CommandInteraction
+  connection: VoiceConnection
+}) => Promise<void>
 
 export type WithVoiceChannelCheckBeforeJoin = (
   args: CommandExecutionArgs
+) => Promise<string | string[] | undefined> | string | string[] | undefined
+export type InteractionWithVoiceChannelCheckBeforeJoin = (
+  args: CommandInteraction
 ) => Promise<string | string[] | undefined> | string | string[] | undefined
 
 export type CommandExecutionWithVoiceChannel = (
   callback: WithVoiceChannelCallback,
   options?: {
     /** error message to reply when user is not in a voice channel. */
-    noConnectionError?: StringResolvable
+    noConnectionError?: string
     /**
      * `checkBeforeJoin` - a callback function that execute before join.
      * if the function returns false, command will end and bot will not join channel. */
@@ -34,17 +43,38 @@ export type CommandExecutionWithVoiceChannel = (
   }
 ) => CommandExecution
 
+export type CommandInteractionExecutionWithVoiceChannel = (
+  callback: InteractionWithVoiceChannelCallback,
+  options?: {
+    /** error message to reply when user is not in a voice channel. */
+    noConnectionError?: string
+    /**
+     * `checkBeforeJoin` - a callback function that execute before join.
+     * if the function returns false, command will end and bot will not join channel. */
+    checkBeforeJoin?: InteractionWithVoiceChannelCheckBeforeJoin
+  }
+) => CommandInteractionExecution
+
 export enum CommandParamType {
   None = 'none',
   Optional = 'optional',
   Required = 'required',
 }
 
+export interface CommandOptionInfo {
+  name: string
+  description?: string
+  type?: ApplicationCommandOptionType // default = String
+  isRequired?: boolean // default = false
+}
+
 export interface Command {
   name: string
   desc?: string
   param: CommandParamType
+  options?: CommandOptionInfo[]
   execute: CommandExecution
+  interactionExecute?: CommandInteractionExecution
   aliases?: string[]
   cooldown?: number
   withVoiceChannel?: boolean

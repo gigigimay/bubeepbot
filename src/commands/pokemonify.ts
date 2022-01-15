@@ -38,7 +38,7 @@ const execute: CommandExecution = async ({ message, param }) => {
     message.channel.send([
       tagged ? '' : noTagged,
       `:man_mage: Casting *pokemonify*, turning ${target} into a pokemon...`,
-    ])
+    ].join('\n'))
 
     const pokemonID = createPokemonID(target, MAX_POKEMONS)
     const data = await getPokemon(pokemonID)
@@ -48,7 +48,7 @@ const execute: CommandExecution = async ({ message, param }) => {
         icon_url: getAvatarUrl(target),
       },
     })
-    message.channel.send(info)
+    message.channel.send({ embeds: [info] })
   }
 }
 

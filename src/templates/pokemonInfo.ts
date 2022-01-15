@@ -16,7 +16,7 @@ const colorCode: { [key: string]: string } = {
   white: '#f5f5f5',
 }
 
-const pokemonInfo = (data: Pokemon, override: any): { embed: MessageEmbed } => {
+const pokemonInfo = (data: Pokemon, override: any): MessageEmbed => {
   const {
     name, sprite, types = [], id, color,
   } = data
@@ -50,9 +50,7 @@ const pokemonInfo = (data: Pokemon, override: any): { embed: MessageEmbed } => {
       icon_url: BUBEEP_AVATAR,
     },
   }
-  return {
-    embed: fp.merge(defaultCard, override),
-  }
+  return fp.merge(defaultCard, override)
 }
 
 export default pokemonInfo

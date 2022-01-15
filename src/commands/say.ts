@@ -6,6 +6,7 @@ import { beep, exampleCommand } from '../utilities/string'
 import { withVoiceChannel } from '../helper/execute'
 import { getAuthorUsername } from '../helper/message'
 import { createMemoryInstance } from '../helper/memory'
+import { playSound } from '../helper/connection'
 
 const DEFAULT_GENDER = 'female'
 const DEFAULT_LANG = 'th'
@@ -32,8 +33,8 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
     const username = getAuthorUsername(message)
     const lang = memory[username]?.lang ?? DEFAULT_LANG
     const gender = memory[username]?.gender ?? DEFAULT_GENDER
-    const url = await getVoiceLineNational(lang, gender, param)
-    connection.play(url)
+    const url = getVoiceLineNational(lang, gender, param)
+    await playSound(connection, url)
   }
 }
 
