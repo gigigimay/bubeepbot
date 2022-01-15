@@ -80,10 +80,10 @@ const createQuestions = (data: [][]): [string[], string[]] => {
     let humanQuestions: string[] = []
     let alienQuestions: string[] = []
     const rowSize: number = data.length // use max row available
-    const rowNumbers = getNotDuplicatedRandomNumbers(rowSize)(players.length + 1)
+    const rowNumbers = getNotDuplicatedRandomNumbers(rowSize - 1)(players.length + 1)
     rowNumbers.forEach((rowNumber) => {
       const columnSize = data[rowNumber].length // use max column available
-      const columnNumbers = getNotDuplicatedRandomNumbers(columnSize)(2)
+      const columnNumbers = getNotDuplicatedRandomNumbers(columnSize - 1)(2)
       humanQuestions.push(data[rowNumber][columnNumbers[0]])
       alienQuestions.push(data[rowNumber][columnNumbers[1]])
     })
