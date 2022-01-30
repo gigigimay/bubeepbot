@@ -1,9 +1,7 @@
 import { Client, Intents } from 'discord.js'
-import { getVoiceConnection, joinVoiceChannel, VoiceConnectionStatus, createAudioPlayer, createAudioResource, AudioPlayerStatus } from '@discordjs/voice'
 import { parseCommand } from './utilities/string'
 import handler from './handler'
-import { getSlashCommands, init as initCommands } from './helper/command'
-import { refreshGuildCommands } from './helper/guild'
+import { init as initCommands } from './helper/command'
 import { createLogger } from './utilities/logger'
 import { handleCommandInteraction } from './handler/interaction'
 
@@ -18,7 +16,6 @@ const client = new Client({
 })
 
 initCommands()
-const slashCommands = getSlashCommands()
 
 // trigger once after logging in
 client.once('ready', () => {
@@ -32,15 +29,6 @@ client.on('interactionCreate', (interaction) => {
 
 // // subscribe to message event
 client.on('messageCreate', (message) => {
-  // FIXME move to message command
-  if (message.content === 'refresh') {
-    if (message.guildId) {
-      refreshGuildCommands(message.guildId, slashCommands)
-      message.reply('refreshing command done!')
-      return
-    }
-  }
-
   if (message.author.bot) return
   const parsed = parseCommand(message.content)
   if (parsed) {
