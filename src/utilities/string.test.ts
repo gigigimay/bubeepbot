@@ -28,9 +28,11 @@ describe('parseCommand', () => {
   it('should return command name and param when the input have both', () => {
     expect(parseCommand('!echo eiei')).toEqual({ name: 'echo', param: 'eiei' })
     expect(parseCommand('!echo eiei za')).toEqual({ name: 'echo', param: 'eiei za' })
+    expect(parseCommand('!echo-alpha eiei za')).toEqual({ name: 'echo-alpha', param: 'eiei za' })
   })
   it('should return only command name when the input does not have param', () => {
     expect(parseCommand('!echo')).toEqual({ name: 'echo', param: undefined })
+    expect(parseCommand('!echo-alpha')).toEqual({ name: 'echo-alpha', param: undefined })
   })
   it('should return undefined when the input is not a command', () => {
     expect(parseCommand('hello')).toEqual(undefined)

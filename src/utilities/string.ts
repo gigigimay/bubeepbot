@@ -11,7 +11,7 @@ export const beep = (str?: string): string =>
 export const exampleCommand = (str: string): string =>
   `:speech_balloon: \`${prefix}${str}\``
 
-const matcher = new RegExp(`^${prefix}(\\w+)(?: (.+))?`)
+const matcher = new RegExp(`^${prefix}(\\S+)(?: (.+))?`)
 export const clean = (str = ''): string => str.trim().replace(/\s\s+/g, ' ')
 export const parseCommand = (str: string): ParsedCommand | undefined => {
   const match = clean(str).match(matcher)

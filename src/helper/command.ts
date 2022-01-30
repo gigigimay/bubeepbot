@@ -2,8 +2,9 @@
 import fs from 'fs'
 import Discord from 'discord.js'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { Command } from '../types'
 import { ApplicationCommandOptionType } from 'discord-api-types'
+import { Command } from '../types'
+import config from '../config'
 
 const Commands = new Discord.Collection<string, Command>()
 
@@ -17,7 +18,10 @@ export const init = (): void => {
   // set command name into the collection
   commandFiles.forEach((file) => {
     const command: Command = require(`../commands/${file}`).default
-    if (command) { Commands.set(command.name, command) }
+    if (command) {
+      const withSuffix = { ...command, name: `${command.name}${config.suffix}` }
+      Commands.set(withSuffix.name, withSuffix)
+    }
   })
 }
 
