@@ -1,7 +1,6 @@
 import { Message, CommandInteraction } from 'discord.js'
 import { VoiceConnection } from '@discordjs/voice'
 import { ApplicationCommandOptionType } from 'discord-api-types'
-import { sheets_v4 } from 'googleapis'
 
 export interface IIndexable<T = any> {
   [key: string]: T
@@ -106,4 +105,7 @@ export interface Pokemon {
   color: string
 }
 
-export type readSheetCallback = (sheets: sheets_v4.Sheets) => Promise<any>
+export interface AlienGameQuestions {
+  human: string[]
+  alien: string[]
+}

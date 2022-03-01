@@ -1,10 +1,10 @@
-import { getNotDuplicatedRandomNumbers } from './../utilities/number'
-import { tryReadSheet } from './../helper/google_sheet'
+import { getQuestions } from '../services/alien'
 import { Message, MessageReaction, ReactionCollector, ReactionEmoji, ReactionUserManager, User } from 'discord.js'
 import { CommandInteractionExecution, CommandExecution, Command, CommandParamType } from '../types'
 import { getRandomInt } from '../utilities/number'
-import { sheets_v4 } from 'googleapis'
 import { ApplicationCommandOptionType } from 'discord-api-types'
+import embed from '../templates/embed'
+import { MessageEmbedImage, MessageAttachment } from 'discord.js'
 
 let players: User[] = []
 let alien: User | null = null
@@ -23,13 +23,13 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
       '4. After every one asked and answered, guess who is the alien\n' +
       'See all possible questions here: https://docs.google.com/spreadsheets/d/1FId-8RNEedkMRCSEh9-agXmNB47ZsI_tW4q4_PNjitA/edit?usp=sharing\n'
   }
-  content += '👽 LET\'S FIND AN ALIEN 👽\nplease wait until ▶️ ready to react before join\n🖐 to join & ▶️ to start'
+  content += '👽 LET\'S FIND AN ALIEN 👽\n🖐 to join & ▶️ to start'
 
   const message = await interaction.reply({
     content: content, fetchReply: true
   }) as Message
-  message.react('🖐')
-    .then(() => message.react('▶️'))
+  message.react('▶️')
+    .then(() => message.react('🖐'))
     .then(() => waitForNextReaction(message))
     .catch(error => console.error('One of the emojis failed to react:', error))
 }
@@ -48,11 +48,19 @@ const waitForNextReaction = (message: Message) => {
         })
       }
       else if (reaction?.emoji.name === '▶️') {
+        if (players.length < 2) {
+          message.reply('You can\'t play this alone, find some friend.')
+          message.reply('https://media1.giphy.com/media/7mQbDHkoSsWl2/giphy.gif?cid=ecf05e475vw1gt3g5fqsvqjtnxe65kl8ps74os5fk8z5mdpj&rid=giphy.gif&ct=g')
+          return
+        }
+
         const alienIndex = getRandomInt(players.length - 1, 0)
         alien = players[alienIndex]
         players.splice(alienIndex)
 
-        tryReadSheet(sendQuestions)
+        const questions = await getQuestions(players.length)
+        sendHumanQuestions(questions.human)
+        sendAlienQuestions(alien!, questions.alien)
       }
 
       waitForNextReaction(message)
@@ -60,39 +68,6 @@ const waitForNextReaction = (message: Message) => {
     .catch(collected => {
       message.reply('Timeout!!, this message will be expired.')
     })
-}
-
-const sendQuestions = async (sheets: sheets_v4.Sheets) => {
-  sheets.spreadsheets.values.get({
-    spreadsheetId: '1FId-8RNEedkMRCSEh9-agXmNB47ZsI_tW4q4_PNjitA',
-    range: 'alien_q_db',
-  }, (err: any, res: any) => {
-    if (err) return console.log('The API returned an error: ' + err)
-    const [humanQuestions, alienQuestions] = createQuestions(res.data.values)
-
-    sendHumanQuestions(humanQuestions)
-    sendAlienQuestions(alien!, alienQuestions)
-  })
-}
-
-const createQuestions = (data: [][]): [string[], string[]] => {
-  if (data.length) {
-    let humanQuestions: string[] = []
-    let alienQuestions: string[] = []
-    const rowSize: number = data.length // use max row available
-    const rowNumbers = getNotDuplicatedRandomNumbers(rowSize - 1)(players.length + 1)
-    rowNumbers.forEach((rowNumber) => {
-      const columnSize = data[rowNumber].length // use max column available
-      const columnNumbers = getNotDuplicatedRandomNumbers(columnSize - 1)(2)
-      humanQuestions.push(data[rowNumber][columnNumbers[0]])
-      alienQuestions.push(data[rowNumber][columnNumbers[1]])
-    })
-
-    return [humanQuestions, alienQuestions]
-  } else {
-    console.log('No data found.')
-    return [[], []]
-  }
 }
 
 const sendHumanQuestions = (questions: string[]) => {
