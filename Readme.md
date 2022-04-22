@@ -14,6 +14,9 @@ Bubeep is a tiny discord bot who dreamed to conquer the world.
 - Package manager: [Yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable)
 - Runs with `Node` version >=16.6.0
 
+### Environment variables
+create `.env` file in your root directory and add values following the `.env.example`
+
 ### Install Dependencies
 
 ```
