@@ -11,6 +11,7 @@ const logger = createLogger('alien.ts')
 // TODO: 0 player
 // TODO: too many friends
 // TODO: crashed when have parallel games
+// TODO: stop listening to button event after started
 
 const TIMEOUT = 60000 // 1 min
 const MIN_PLAYERS = 3
