@@ -8,8 +8,8 @@ import { EMOJIS } from '../constants'
 
 const logger = createLogger('alien.ts')
 
-const TIMEOUT = 10000 // 1 min
-const MIN_PLAYERS = 1
+const TIMEOUT = 60000 // 1 min
+const MIN_PLAYERS = 3
 const MESSAGES = {
   RULES: [
     '🎯 RULES',
