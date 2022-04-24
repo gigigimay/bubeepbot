@@ -1,5 +1,5 @@
 import { getQuestions } from '../services/alien'
-import { InteractionReplyOptions, MessageActionRow, MessageButton, User } from 'discord.js'
+import { InteractionReplyOptions, Message, MessageActionRow, MessageButton, User } from 'discord.js'
 import { CommandInteractionExecution, CommandExecution, Command, CommandParamType } from '../types'
 import { getRandomInt } from '../utilities/number'
 import { ApplicationCommandOptionType } from 'discord-api-types'
@@ -10,7 +10,6 @@ const logger = createLogger('alien.ts')
 
 // TODO: 0 player
 // TODO: too many friends
-// TODO: crashed when have parallel games
 // TODO: stop listening to button event after started
 
 const TIMEOUT = 10000 // 1 min
@@ -38,10 +37,9 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
   let isStarted = false
 
   // send game introduction and menu
-  await interaction.reply(getGameInterface(players, withRules))
+  const message = await interaction.reply(getGameInterface(players, withRules)) as unknown as Message
 
-  const collector = interaction.channel?.createMessageComponentCollector({ filter: () => true, time: TIMEOUT })
-  if (!collector) return
+  const collector = message.createMessageComponentCollector({ filter: () => true, time: TIMEOUT })
 
   // wait for players to join and start
   collector.on('collect', async (i) => {
@@ -100,6 +98,7 @@ const getGameInterface = (players: User[], withRules: boolean | null): Interacti
   return {
     content: messages.join('\n'),
     components: getGameMenuComponents(players),
+    fetchReply: true,
   }
 }
 
