@@ -1,16 +1,13 @@
-import { getQuestions } from '../services/alien'
 import { InteractionReplyOptions, Message, MessageActionRow, MessageButton, User } from 'discord.js'
-import { CommandInteractionExecution, CommandExecution, Command, CommandParamType } from '../types'
-import { getRandomInt } from '../utilities/number'
 import { ApplicationCommandOptionType } from 'discord-api-types'
+import { CommandInteractionExecution, CommandExecution, Command, CommandParamType } from '../types'
+import { getQuestions } from '../services/alien'
+import { getRandomInt } from '../utilities/number'
 import { createLogger } from '../utilities/logger'
 import { EMOJIS } from '../constants'
 
 const logger = createLogger('alien.ts')
 
-// TODO: 0 player
-// TODO: too many friends
-// TODO: stop listening to button event after started
 
 const TIMEOUT = 10000 // 1 min
 const MIN_PLAYERS = 1

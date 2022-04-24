@@ -23,10 +23,12 @@ export const getCommandTarget = (message: Message, param = ''): CommandTarget =>
   }
 }
 
+export const getErrorMessage = (e: Error, text = ''): string => [
+  text,
+  '```',
+  e.message,
+  '```',
+].join('\n')
+
 export const sendError = (e: Error, message: Message, text = ''): Promise<Message> =>
-  message.channel.send([
-    text,
-    '```',
-    e.message,
-    '```',
-  ].join('\n'))
+  message.channel.send(getErrorMessage(e, text))
