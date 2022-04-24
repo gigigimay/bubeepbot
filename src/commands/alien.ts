@@ -8,7 +8,6 @@ import { EMOJIS } from '../constants'
 
 const logger = createLogger('alien.ts')
 
-
 const TIMEOUT = 10000 // 1 min
 const MIN_PLAYERS = 1
 const MESSAGES = {
@@ -35,6 +34,8 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
 
   // send game introduction and menu
   const message = await interaction.reply(getGameInterface(players, withRules)) as unknown as Message
+  const gameId = message.id
+  logger.info(`[gameId: ${gameId}] game created`)
 
   const collector = message.createMessageComponentCollector({ filter: () => true, time: TIMEOUT })
 
@@ -42,6 +43,7 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
   collector.on('collect', async (i) => {
     // handle join game
     if (i.customId === 'join') {
+      logger.info(`[gameId: ${gameId}] player joined`)
       const { user } = i
       if (!players.find((p) => p.id === user.id)) {
         players.push(user)
@@ -55,9 +57,9 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
     // handle start game
     if (i.customId === 'start') {
       isStarted = true
-      // console.log('players', players)
 
       if (players.length < MIN_PLAYERS) {
+        logger.info(`[gameId: ${gameId}] players not enough`)
         const sadText = players.length === 1 ? "You can't play this alone, find some friend." : 'Players not enough, find some friends.'
         await i.update({ content: `${MESSAGES.HEADER}\n${sadText} :smiling_face_with_tear:`, components: [] })
         if (players.length === 1) {
@@ -67,19 +69,22 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
       }
 
       // start game kong jing
+      logger.info(`[gameId: ${gameId}] started`)
+      await i.update({ content: `${MESSAGES.HEADER}\nGame started! Please wait and check your inbox.`, components: [] })
       const alienIndex = getRandomInt(players.length - 1, 0)
       const alien = players[alienIndex]
       players.splice(alienIndex)
 
       const questions = await getQuestions(players.length)
-      sendHumanQuestions(questions.human, players)
-      sendAlienQuestions(questions.alien, alien)
-      await i.update({ content: `${MESSAGES.HEADER}\nGame started! Please check your inbox.`, components: [] })
+      await sendHumanQuestions(questions.human, players)
+      await sendAlienQuestions(questions.alien, alien)
+      return
     }
   })
 
   collector.on('end', () => {
     if (!isStarted) {
+      logger.info(`[gameId: ${gameId}] timeout`)
       interaction.editReply({ content: `${MESSAGES.HEADER}\nTimeout! The game wasn't started. :ghost:`, components: [] })
     }
   })
