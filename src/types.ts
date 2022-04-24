@@ -104,3 +104,8 @@ export interface Pokemon {
   id: number
   color: string
 }
+
+export interface AlienGameQuestions {
+  human: string[]
+  alien: string[]
+}

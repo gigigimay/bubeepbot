@@ -6,7 +6,6 @@ import { getAuthorNickname } from '../helper/message'
 import { getAuthorNickname as interactionGetAuthorNickname } from '../helper/interaction'
 import { playSound } from '../helper/connection'
 
-
 const getMessages = (name: string): string[] => {
   const temperature = getRandomInt(390, 340) / 10
   return [name, 'อุณหภูมิของท่านคือ', `${temperature}`]

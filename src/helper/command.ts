@@ -44,16 +44,26 @@ export const getSlashCommands = (): SlashCommandBuilder[] => {
 
     if (command.options) {
       command.options.forEach(({ name, description, isRequired = false, type }) => {
-        // TODO: add other option types
+        // TODO: add other option types (use there base type?)
         switch (type) {
+          case ApplicationCommandOptionType.Boolean: {
+            builder.addBooleanOption((option) => {
+              return option
+                .setName(name)
+                .setDescription(description ?? '')
+                .setRequired(isRequired)
+            })
+          }
+            break
           case ApplicationCommandOptionType.String:
-          default:
+          default: {
             builder.addStringOption((option) => {
               return option
                 .setName(name)
                 .setDescription(description ?? '')
                 .setRequired(isRequired)
             })
+          }
         }
       })
     }
