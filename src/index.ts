@@ -1,4 +1,4 @@
-import { Client, Intents } from 'discord.js'
+import { Client } from 'discord.js'
 import { parseCommand } from './utilities/string'
 import handler from './handler'
 import { init as initCommands } from './helper/command'
@@ -9,9 +9,10 @@ const logger = createLogger('index.ts')
 
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_VOICE_STATES,
+    'Guilds',
+    'GuildMessages',
+    'GuildVoiceStates',
+    'MessageContent'
   ],
 })
 

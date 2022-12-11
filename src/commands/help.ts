@@ -44,9 +44,9 @@ const execute: CommandExecution = ({ message, param = '' }) => {
       const commandData = transformCommand(commandDataConfig, command)
       message.channel.send({
         embeds: [embed({
-          thumbnail: null,
-          footer: null,
-          timestamp: null,
+          thumbnail: undefined,
+          footer: undefined,
+          timestamp: undefined,
           author: { name: 'bubeep command:' },
           title: command.name,
           fields: commandData,
@@ -58,9 +58,9 @@ const execute: CommandExecution = ({ message, param = '' }) => {
   const commands = Commands.map((c) => `\`${c.name}\` - ${c.desc}`)
   message.channel.send({
     embeds: [embed({
-      thumbnail: null,
-      footer: null,
-      timestamp: null,
+      thumbnail: undefined,
+      footer: undefined,
+      timestamp: undefined,
       title: 'Command list',
       description: [
         ...commands,

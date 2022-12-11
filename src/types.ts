@@ -1,6 +1,6 @@
 import { Message, CommandInteraction } from 'discord.js'
 import { VoiceConnection } from '@discordjs/voice'
-import { ApplicationCommandOptionType } from 'discord-api-types'
+import { ApplicationCommandOptionType } from 'discord-api-types/v10'
 
 export interface IIndexable<T = any> {
   [key: string]: T

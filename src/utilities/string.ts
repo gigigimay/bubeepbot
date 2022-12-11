@@ -22,3 +22,9 @@ export const parseCommand = (str: string): ParsedCommand | undefined => {
     }
     : undefined
 }
+
+/** converts hex color to an integer (to be used in Discord's embed messages) */
+export const hexColorToNumber = (hex: string) => {
+  const rrggbb = hex.slice(1)
+  return parseInt(rrggbb, 16)
+}

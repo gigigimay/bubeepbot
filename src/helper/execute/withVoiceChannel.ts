@@ -7,6 +7,9 @@ import { getVoiceChannel } from '../message'
 import config from '../../config'
 import { CommandExecutionWithVoiceChannel, CommandInteractionExecutionWithVoiceChannel } from '../../types'
 import { getVoiceChannel as getInteractionVoiceChannel } from '../interaction'
+import { createLogger } from '../../utilities/logger'
+
+const logger = createLogger('withVoiceChannel.ts')
 
 const defaultError = beep('You need to join a voice channel.')
 
@@ -34,10 +37,11 @@ const tryToDisconnect = async (args: {
         errors: ['time'],
       })
   } catch (e) {
-    console.log(`leaving voice channel after ${time} seconds idle time`)
+    logger.info(`leaving voice channel after ${time} seconds idle time`)
     connection.disconnect()
   }
 }
+
 const interactionTryToDisconnect = async (args: {
   interaction: CommandInteraction
   connection: VoiceConnection
@@ -53,6 +57,7 @@ const interactionTryToDisconnect = async (args: {
         errors: ['time'],
       })
   } catch (e) {
+    logger.info(`leaving voice channel after ${time} seconds idle time`)
     connection.disconnect()
   }
 }

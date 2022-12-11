@@ -1,10 +1,10 @@
-import { MessageEmbed } from 'discord.js'
-import fp from 'lodash/fp'
+import { APIEmbed } from 'discord.js'
 import { BUBEEP_AVATAR, INVITE_URL } from '../constants'
+import { hexColorToNumber } from '../utilities/string'
 
-const embed = (override = {}): MessageEmbed => {
-  const defaultEmbed = fp.merge(new MessageEmbed(), {
-    color: '#65c6af',
+const embed = (override: Partial<APIEmbed> = {}): APIEmbed => {
+  const defaultEmbed: APIEmbed = {
+    color: hexColorToNumber('#65c6af'),
     title: 'Bubeep',
     author: {
       name: 'bubeep',
@@ -12,14 +12,14 @@ const embed = (override = {}): MessageEmbed => {
       url: INVITE_URL,
     },
     thumbnail: { url: BUBEEP_AVATAR },
-    timestamp: new Date(),
+    timestamp: new Date().toISOString(),
     footer: {
       text: '*bubeep*',
       icon_url: BUBEEP_AVATAR,
     },
-  })
+  }
 
-  return fp.merge(defaultEmbed, override)
+  return { ...defaultEmbed, ...override }
 }
 
 export default embed

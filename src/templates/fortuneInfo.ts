@@ -1,12 +1,12 @@
-import { MessageEmbed } from 'discord.js'
+import { APIEmbed } from 'discord.js'
 import { TarotCard } from './../types'
 import embed from './embed'
 
-const fortuneInfo = (cardData: { card: TarotCard, isReversed: boolean }): MessageEmbed => {
+const fortuneInfo = (cardData: { card: TarotCard, isReversed: boolean }): APIEmbed => {
   const { card, isReversed } = cardData
   const title = `#${card.value_int} - ${card.name} ${isReversed ? '- Reversed' : ''}`
   return embed({
-    author: null,
+    author: undefined,
     title,
     fields: [
       {
@@ -14,7 +14,7 @@ const fortuneInfo = (cardData: { card: TarotCard, isReversed: boolean }): Messag
         value: isReversed ? card.meaning_rev : card.meaning_up,
       },
     ],
-    thumbnail: null,
+    thumbnail: undefined,
   })
 }
 

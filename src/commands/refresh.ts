@@ -18,7 +18,7 @@ const interactionExecute: CommandInteractionExecution = async (interaction) => {
 
 const command: Command = {
   name: 'refresh',
-  desc: 'refresh data of Bubeep\'s slash commands for this channel',
+  desc: 'sync Bubeep\'s slash command data in this channel',
   param: CommandParamType.None,
   execute,
   interactionExecute,

@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { delay } from 'lodash'
 import { checkLanguageValid, getGender, getVoiceLineNational } from './../helper/tts'
 import { Command, CommandParamType, InteractionWithVoiceChannelCallback, InteractionWithVoiceChannelCheckBeforeJoin, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
 import { beep, exampleCommand } from '../utilities/string'
@@ -8,6 +8,7 @@ import { getAuthorNickname as interactionGetAuthorNickname } from '../helper/int
 import { getAuthorUsername } from '../helper/message'
 import { createMemoryInstance } from '../helper/memory'
 import { playSound } from '../helper/connection'
+import { ApplicationCommandOptionType } from 'discord-api-types/v10'
 
 const DEFAULT_GENDER = 'female'
 const DEFAULT_LANG = 'th'
@@ -38,15 +39,18 @@ const execute: WithVoiceChannelCallback = async ({ connection, param, message })
 }
 
 const interactionExecute: InteractionWithVoiceChannelCallback = async ({ connection, interaction }) => {
-  const param = interaction.options.getString('word')
-  const name = interactionGetAuthorNickname(interaction)
-
+  const word = interaction.options.get('message', true).value as string
   const username = interaction.member?.user.username as string
+  const name = interactionGetAuthorNickname(interaction)
   const lang = memory[username]?.lang ?? DEFAULT_LANG
   const gender = memory[username]?.gender ?? DEFAULT_GENDER
-  const url = getVoiceLineNational(lang, gender, param!)
-  interaction.reply(`**${name}** said: "${param}"`)
+  const url = getVoiceLineNational(lang, gender, word)
+  await interaction.reply(`**${name}** says: "${word}"`)
   await playSound(connection, url)
+  const isDelete = interaction.options.get('delete')?.value
+  if (isDelete) {
+    await delay(() => interaction.deleteReply(), 1000)
+  }
 }
 
 const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message }) => {
@@ -57,23 +61,25 @@ const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message
   if (result) return result
 }
 
-const interactionCheckBeforeJoin: InteractionWithVoiceChannelCheckBeforeJoin = (interaction) => {
-  if (!interaction.options) return emptyParamError
-}
-
 const command: Command = {
   name: 'say',
   desc: 'I say.',
   param: CommandParamType.Required,
   options: [
     {
-      name: 'word',
+      name: 'message',
       description: 'something you want bubeep to say',
       isRequired: true
+    },
+    {
+      name: 'delete',
+      description: 'whether to delete the message after bubeep finished speaking :sunglasses:',
+      type: ApplicationCommandOptionType.Boolean,
+      isRequired: false
     }
   ],
   execute: withVoiceChannel(execute, { checkBeforeJoin }),
-  interactionExecute: interactionWithVoiceChannel(interactionExecute, { checkBeforeJoin: interactionCheckBeforeJoin }),
+  interactionExecute: interactionWithVoiceChannel(interactionExecute),
   withVoiceChannel: true,
 }
 

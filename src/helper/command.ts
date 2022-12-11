@@ -2,7 +2,7 @@
 import fs from 'fs'
 import Discord from 'discord.js'
 import { SlashCommandBuilder } from '@discordjs/builders'
-import { ApplicationCommandOptionType } from 'discord-api-types'
+import { ApplicationCommandOptionType } from 'discord-api-types/v10'
 import { Command } from '../types'
 import config from '../config'
 
@@ -46,14 +46,19 @@ export const getSlashCommands = (): SlashCommandBuilder[] => {
       command.options.forEach(({ name, description, isRequired = false, type }) => {
         // TODO: add other option types
         switch (type) {
+          case ApplicationCommandOptionType.Boolean:
+            return builder.addBooleanOption((option) => option
+              .setName(name)
+              .setDescription(description ?? '')
+              .setRequired(isRequired)
+            )
           case ApplicationCommandOptionType.String:
           default:
-            builder.addStringOption((option) => {
-              return option
-                .setName(name)
-                .setDescription(description ?? '')
-                .setRequired(isRequired)
-            })
+            return builder.addStringOption((option) => option
+              .setName(name)
+              .setDescription(description ?? '')
+              .setRequired(isRequired)
+            )
         }
       })
     }

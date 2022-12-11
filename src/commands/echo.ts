@@ -15,7 +15,7 @@ const execute: CommandExecution = ({ message, param }) => (
 )
 
 const interactionExecute: CommandInteractionExecution = (interaction) => {
-  const param = interaction.options.getString('word')
+  const param = interaction.options.get('word', true).value as string
   interaction.reply(getContent(param))
 }
 
