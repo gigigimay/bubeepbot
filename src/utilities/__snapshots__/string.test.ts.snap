@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`beep should match snapshots 1`] = `"\\\\*beep\\\\*"`;
+exports[`beep should match snapshots 1`] = `"\\*beep\\*"`;
 
-exports[`beep should match snapshots 2`] = `"eiei \\\\*beep\\\\*"`;
+exports[`beep should match snapshots 2`] = `"eiei \\*beep\\*"`;
 
 exports[`exampleCommand should match snapshots 1`] = `":speech_balloon: \`!eiei\`"`;
