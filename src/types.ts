@@ -38,7 +38,9 @@ export type CommandExecutionWithVoiceChannel = (
     noConnectionError?: string
     /**
      * `checkBeforeJoin` - a callback function that execute before join.
-     * if the function returns false, command will end and bot will not join channel. */
+     * the returned value indicates the error message
+     * so if the function returns a value (not undefined), the command will end.
+     * The bot will not join channel. and it will send the returned error message. */
     checkBeforeJoin?: WithVoiceChannelCheckBeforeJoin
   }
 ) => CommandExecution

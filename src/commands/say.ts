@@ -1,9 +1,10 @@
 import _ from 'lodash'
 import { checkLanguageValid, getGender, getVoiceLineNational } from './../helper/tts'
-import { Command, CommandParamType, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
+import { Command, CommandParamType, InteractionWithVoiceChannelCallback, InteractionWithVoiceChannelCheckBeforeJoin, WithVoiceChannelCallback, WithVoiceChannelCheckBeforeJoin } from '../types'
 import { beep, exampleCommand } from '../utilities/string'
 
-import { withVoiceChannel } from '../helper/execute'
+import { interactionWithVoiceChannel, withVoiceChannel } from '../helper/execute'
+import { getAuthorNickname as interactionGetAuthorNickname } from '../helper/interaction'
 import { getAuthorUsername } from '../helper/message'
 import { createMemoryInstance } from '../helper/memory'
 import { playSound } from '../helper/connection'
@@ -29,13 +30,23 @@ const emptyParamError = [
 ]
 
 const execute: WithVoiceChannelCallback = async ({ connection, param, message }) => {
-  if (param) {
-    const username = getAuthorUsername(message)
-    const lang = memory[username]?.lang ?? DEFAULT_LANG
-    const gender = memory[username]?.gender ?? DEFAULT_GENDER
-    const url = getVoiceLineNational(lang, gender, param)
-    await playSound(connection, url)
-  }
+  const username = getAuthorUsername(message)
+  const lang = memory[username]?.lang ?? DEFAULT_LANG
+  const gender = memory[username]?.gender ?? DEFAULT_GENDER
+  const url = getVoiceLineNational(lang, gender, param!)
+  await playSound(connection, url)
+}
+
+const interactionExecute: InteractionWithVoiceChannelCallback = async ({ connection, interaction }) => {
+  const param = interaction.options.getString('word')
+  const name = interactionGetAuthorNickname(interaction)
+
+  const username = interaction.member?.user.username as string
+  const lang = memory[username]?.lang ?? DEFAULT_LANG
+  const gender = memory[username]?.gender ?? DEFAULT_GENDER
+  const url = getVoiceLineNational(lang, gender, param!)
+  interaction.reply(`**${name}** said: "${param}"`)
+  await playSound(connection, url)
 }
 
 const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message }) => {
@@ -46,11 +57,23 @@ const checkBeforeJoin: WithVoiceChannelCheckBeforeJoin = async ({ param, message
   if (result) return result
 }
 
+const interactionCheckBeforeJoin: InteractionWithVoiceChannelCheckBeforeJoin = (interaction) => {
+  if (!interaction.options) return emptyParamError
+}
+
 const command: Command = {
   name: 'say',
   desc: 'I say.',
   param: CommandParamType.Required,
+  options: [
+    {
+      name: 'word',
+      description: 'something you want bubeep to say',
+      isRequired: true
+    }
+  ],
   execute: withVoiceChannel(execute, { checkBeforeJoin }),
+  interactionExecute: interactionWithVoiceChannel(interactionExecute, { checkBeforeJoin: interactionCheckBeforeJoin }),
   withVoiceChannel: true,
 }
 
